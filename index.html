@@ -93,8 +93,9 @@ body.playing #tools{padding:6px}
 </style>
 </head>
 <body>
-<!-- MUSIQUE LIBRE : si tu télécharges une musique sur pixabay.com/music/ , renomme-la puzzle-game.mp3 et mets-la à côté de index.html, elle jouera à la place -->
+<!-- MUSIQUE : mets ton fichier puzzle-game.mp3 À CÔTÉ de index.html sur Netlify, dans le même dossier. Le jeu le prend tout seul. -->
 <audio id="bgFile" loop preload="none" src="puzzle-game.mp3"></audio>
+<input type="file" id="musicFile" accept="audio/*" style="display:none">
 <header><div class="logo">💎 Block Puzzle Gems</div><nav><a href="#" onclick="showTab('how',document.querySelector('.tabs button'));return false">Aide</a><a href="#" onclick="openPage('contact');return false">Contact</a><a href="#" id="installBtn" onclick="installApp();return false">📥 Installer</a></nav></header>
 <div class="hero"><h1>Block Puzzle Gems - Jeu de puzzle gratuit</h1><p>Glisse les blocs, complète les lignes, déclenche des réactions en chaîne. 100% gratuit.</p></div>
 <div id="gameWrap"><div id="app">
@@ -105,15 +106,17 @@ body.playing #tools{padding:6px}
 <button class="b g" id="playBtn">▶ JOUER - <span id="playLevelName">Facile</span></button><button class="b o" id="giftBtn">🎁 Cadeau du jour</button><button class="b o" id="chestBtn">📦 Coffre gratuit</button><button class="b" id="themeBtn">🎨 Thèmes de blocs</button><button class="b" onclick="openSettings()">⚙️ Paramètres - Son / Musique / Vibration</button><button class="b" onclick="installApp()">📥 Installer l'appli</button></div></div>
 <div class="modal" id="over"><div class="card"><h2>Plus de place ! 😮</h2><p id="overLevel">Niveau : Facile</p><p>Score : <b id="oScore">0</b> &nbsp; 🏆 <b id="oBest">0</b></p><div id="overAd" style="display:none;margin:8px 0"><ins class="adsbygoogle" style="display:inline-block;width:300px;height:100px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222"></ins></div><button class="b o" id="reviveBtn">🎬 Continuer (regarder une pub)</button><button class="b o" id="doubleBtn">🎬 Doubler mes pièces (+<span id="oC">0</span> 💰)</button><button class="b g" id="againBtn">🔄 Rejouer</button></div></div>
 <div class="modal" id="themes"><div class="card"><h2>🎨 Thèmes de blocs</h2><div id="themeList"></div><button class="b" id="themeClose">Retour</button></div></div>
-<div class="modal" id="settings" style="z-index:250"><div class="card"><h2>⚙️ Paramètres</h2><p style="font-size:12px;opacity:.8">Musique libre de droit, 100% gratuite. Choisis ce que tu veux entendre.</p>
-<div class="setRow"><div><b>🎵 Musique de fond</b><small>Musique joyeuse libre de droit</small></div><button class="switch" id="swMusic" onclick="toggleSetting('music')"></button></div>
-<div class="setRow"><div style="flex:1"><b>🔊 Volume musique</b><small>Plus fort ou plus doux</small><input class="vol" type="range" id="volMusic" min="0" max="100" value="35" oninput="setVolume('volMusic',this.value)"></div><span class="setVal" id="volMusicVal">35%</span></div>
+<div class="modal" id="settings" style="z-index:250"><div class="card"><h2>⚙️ Paramètres</h2><p style="font-size:12px;opacity:.8">Ta musique, ton "Oh !", tes réglages.</p>
+<div class="setRow"><div><b>🎵 Musique de fond</b><small>Ta musique ou musique libre</small></div><button class="switch" id="swMusic" onclick="toggleSetting('music')"></button></div>
+<div class="setRow"><div style="flex:1"><b>🎵 MA MUSIQUE</b><small id="myMusicName">Aucune musique choisie - clique pour choisir</small><button class="b g" style="margin-top:6px" onclick="chooseMyMusic()">📁 Choisir MA musique dans mon téléphone</button><button class="b" style="margin-top:5px" onclick="removeMyMusic()">🗑️ Revenir à la musique libre</button><small style="margin-top:6px">Pour tout le monde : mets puzzle-game.mp3 à côté de index.html sur Netlify</small></div></div>
+<div class="setRow"><div style="flex:1"><b>🔊 Volume musique</b><input class="vol" type="range" id="volMusic" min="0" max="100" value="35" oninput="setVolume('volMusic',this.value)"></div><span class="setVal" id="volMusicVal">35%</span></div>
 <div class="setRow"><div><b>🔔 Effets sonores</b><small>Clic, ligne, explosion, victoire</small></div><button class="switch" id="swSound" onclick="toggleSetting('sound')"></button></div>
 <div class="setRow"><div style="flex:1"><b>🔔 Volume effets</b><input class="vol" type="range" id="volSound" min="0" max="100" value="70" oninput="setVolume('volSound',this.value)"></div><span class="setVal" id="volSoundVal">70%</span></div>
+<div class="setRow"><div><b>🙌 "Oh !" du public</b><small>Comme au stade, quand tu marques. Pas de mots.</small></div><button class="switch" id="swVoice" onclick="toggleSetting('voice')"></button></div>
 <div class="setRow"><div><b>📳 Vibration</b><small>Petite vibration quand tu joues</small></div><button class="switch" id="swVibrate" onclick="toggleSetting('vibrate')"></button></div>
-<div class="setRow"><div><b>📳 Test vibration</b><small>Vérifie si ton téléphone vibre</small></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testVibrate()">📳 Tester</button></div>
-<div class="setRow"><div><b>🎵 Test musique</b><small>Écoute la musique 5 secondes</small></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testMusic()">▶ Tester</button></div>
-<div class="setRow"><div><b>🏆 Test victoire</b><small>Écoute le bruit quand ça casse</small></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testVictory()">🏆 Tester</button></div>
+<div class="setRow"><div><b>📳 Test vibration</b></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testVibrate()">📳 Tester</button></div>
+<div class="setRow"><div><b>🎵 Test musique</b></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testMusic()">▶ Tester</button></div>
+<div class="setRow"><div><b>🏆 Test "Oh !"</b><small>Écoute le "Oh !" de victoire</small></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testVictory()">🏆 Tester</button></div>
 <button class="b g" onclick="closeSettings()">✅ OK, c'est bon</button>
 </div></div>
 <div class="modal" id="offer" style="z-index:150"><div class="card"><h2>🎁 Bonus gratuit</h2><p id="offerMsg"></p><button class="b g" id="offerYes">🎬 Regarder la pub</button><button class="b" id="offerNo">Non merci</button></div></div>
@@ -128,21 +131,21 @@ body.playing #tools{padding:6px}
 <div class="tab-content">
   <div class="tab-panel active" id="tab-how">
     <h2>Comment jouer ?</h2>
-    <ol><li>Prends un bloc parmi les 3 en bas. Glisse-le sur la grille 8x8.</li><li>Pose-le : un nouveau bloc arrive tout de suite à sa place, le bas ne se vide jamais.</li><li>Complète une ligne ou colonne pour la faire disparaître.</li><li>Les blocs tombent et créent des réactions en chaîne ! Si aucun bloc ne rentre, c'est fini.</li></ol>
+    <ol><li>Prends un bloc parmi les 3 en bas. Glisse-le sur la grille 8x8.</li><li>Pose-le : un nouveau bloc arrive tout de suite à sa place, le bas ne se vide jamais.</li><li>Complète une ligne : les briques se cassent les unes après les autres, en cascade.</li><li>Les blocs tombent et créent des réactions en chaîne ! Si aucun bloc ne rentre, c'est fini.</li></ol>
   </div>
   <div class="tab-panel" id="tab-tips">
     <h2>5 niveaux : de Facile à SAUVAGE</h2>
     <p><b>1. Facile</b> : petits blocs, pour apprendre. <b>2. Normal</b> : un peu plus dur. <b>3. Difficile</b> : grosses pièces. <b>4. Expert</b> : très dur. <b>5. SAUVAGE</b> : que des monstres, points x5. Fais le score demandé pour débloquer le suivant.</p>
-    <p><b>Paramètres :</b> Touche ⚙️ en haut pour couper la musique, les sons ou la vibration. <b>Astuces :</b> Garde le centre libre. Vise 2 lignes d'un coup. Pense à la chute. Garde ta bombe pour 80%. Reviens chaque jour.</p>
+    <p><b>Musique :</b> ⚙️ > 🎵 MA MUSIQUE pour mettre ta propre musique, ou mets puzzle-game.mp3 à côté de index.html sur Netlify.</p>
     <p>Block Puzzle Gems est inspiré de Blockudoku et 1010!, mais gratuit et sans téléchargement. Pour fans de Tetris, Sudoku et casse-tête. Par MdigistarX.</p>
   </div>
   <div class="tab-panel" id="tab-faq">
     <h2>FAQ</h2>
-    <p><b>Gratuit ?</b> Oui, 100%. <b>Téléchargement ?</b> Oui, bouton 📥 Installer en haut, ou direct sur navigateur. <b>Hors ligne ?</b> Oui pour jouer, mais les bonus et pubs demandent Internet pour gagner. <b>Son ?</b> Oui, ⚙️ Paramètres pour musique libre de droit, sons et vibration. <b>Niveaux ?</b> 5 niveaux, du plus facile au plus sauvage, débloqués avec ton score. <b>Pièces ?</b> Lignes + coffre + cadeau du jour + pubs. <b>Enfants ?</b> Oui, jeu familial.</p>
+    <p><b>Gratuit ?</b> Oui, 100%. <b>Musique ?</b> Oui, tu peux mettre TA musique dans ⚙️ Paramètres, ou puzzle-game.mp3 sur Netlify. <b>Son ?</b> Oui, ⚙️ pour musique, "Oh !" du public, sons et vibration. <b>Niveaux ?</b> 5 niveaux, du plus facile au plus sauvage. <b>Pièces ?</b> Lignes + coffre + cadeau du jour + pubs. <b>Enfants ?</b> Oui, jeu familial.</p>
   </div>
 </div>
 <footer><p>© 2026 MdigistarX - <a href="#" onclick="openPage('privacy');return false">Confidentialité</a> | <a href="#" onclick="openPage('contact');return false">Contact</a> | <a href="#" onclick="openPage('about');return false">À propos</a></p></footer>
-<div class="modal page-modal" id="page-privacy"><div class="card"><h2>Politique de confidentialité</h2><p>Dernière mise à jour : 12 novembre 2026. Site puzzle.mdigistarx.tech, édité par MdigistarX, jeu gratuit Block Puzzle Gems.</p><p><b>Données :</b> Nous ne collectons pas de nom ou de numéro. Ton score et tes pièces sont sauvegardés uniquement dans ton navigateur.</p><p><b>Cookies et publicités :</b> Nous utilisons Google AdSense. Google peut utiliser des cookies pour personnaliser les annonces. Musique : composition originale libre de droit.</p><p><b>Contact :</b> contact@mdigistarx.tech.</p><button class="b" onclick="closePage()">Fermer</button></div></div>
+<div class="modal page-modal" id="page-privacy"><div class="card"><h2>Politique de confidentialité</h2><p>Dernière mise à jour : 12 novembre 2026. Site puzzle.mdigistarx.tech, édité par MdigistarX, jeu gratuit Block Puzzle Gems.</p><p><b>Données :</b> Nous ne collectons pas de nom ou de numéro. Ton score et tes pièces sont sauvegardés uniquement dans ton navigateur. Ta musique choisie reste uniquement sur ton téléphone.</p><p><b>Cookies et publicités :</b> Nous utilisons Google AdSense. Google peut utiliser des cookies pour personnaliser les annonces. Musique par défaut : composition originale libre de droit.</p><p><b>Contact :</b> contact@mdigistarx.tech.</p><button class="b" onclick="closePage()">Fermer</button></div></div>
 <div class="modal page-modal" id="page-contact"><div class="card"><h2>Contact</h2><p>Une question, une suggestion, un bug ? Écris-nous à : <b>contact@mdigistarx.tech</b></p><p>Nous répondons sous 48h.</p><button class="b" onclick="closePage()">Fermer</button></div></div>
 <div class="modal page-modal" id="page-about"><div class="card"><h2>À propos de MdigistarX</h2><p>MdigistarX crée des jeux web simples et accessibles. Objectif : des jeux gratuits, légers et amusants pour tous, en Afrique et dans le monde. Block Puzzle Gems est notre premier jeu.</p><p>Site : puzzle.mdigistarx.tech - Email : contact@mdigistarx.tech</p><button class="b" onclick="closePage()">Fermer</button></div></div>
 <div id="cookieBar">Ce site utilise des cookies pour améliorer ton expérience et afficher des publicités. <button onclick="acceptCookies()">J'accepte</button></div>
@@ -154,8 +157,10 @@ S.theme=S.theme||0;S.owned=S.owned||[0,1];S.chest=S.chest||0;
 if(S.music==null) S.music=true;
 if(S.sound==null) S.sound=true;
 if(S.vibrate==null) S.vibrate=true;
+if(S.voice==null) S.voice=true;
 if(S.volMusic==null) S.volMusic=35;
 if(S.volSound==null) S.volSound=70;
+if(S.myMusicName==null) S.myMusicName='';
 save();
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='inline-block'});
@@ -179,9 +184,7 @@ function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');cle
 function enterImmersive(){document.body.classList.add('playing');setTimeout(resize,50);setTimeout(resize,300)}
 function exitImmersive(){document.body.classList.remove('playing');setTimeout(resize,50);setTimeout(resize,300)}
 function exitToMenu(){exitImmersive();state='menu';$('menu').classList.add('show');$('over').classList.remove('show');renderLevels();ui()}
-// ===== MUSIQUE LIBRE DE DROIT, JOYEUSE, STYLE JEU DE PUZZLE =====
-// Composition originale, pas de chanson copiée. Do majeur, gai, qui donne envie de jouer.
-let audioCtx=null, musicTimer=null, musicPlaying=false, musicStep=0, useFileMusic=false;
+let audioCtx=null, musicTimer=null, musicPlaying=false, musicStep=0, useFileMusic=false, myMusicURL=null;
 function getAudio(){ try{ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }catch(e){ return null } }
 const MUSIC_NOTES=[
   523.25, 659.25, 783.99, 880.00, 783.99, 659.25, 523.25, 659.25,
@@ -201,6 +204,7 @@ function playMusicNote(freq,dur,vol){
 function startMusic(){
   if(!S.music) return;
   const file=$('bgFile');
+  if(myMusicURL){ file.src=myMusicURL; file.volume=(S.volMusic||35)/100*0.7; file.play().then(()=>{useFileMusic=true;musicPlaying=true;}).catch(()=>{useFileMusic=false;startSynthMusic();}); return; }
   if(file && file.src){
     file.volume=(S.volMusic||35)/100*0.6;
     file.play().then(()=>{ useFileMusic=true; musicPlaying=true; }).catch(()=>{ useFileMusic=false; startSynthMusic(); });
@@ -227,35 +231,90 @@ function stopMusic(){
 }
 function testMusic(){
   const old=S.music; S.music=true; save(); syncSettingsUI(); startMusic();
-  toast('🎵 Écoute la musique libre...');
+  toast('🎵 Écoute ta musique...');
   setTimeout(()=>{ if(!old){ S.music=false; save(); syncSettingsUI(); stopMusic(); } }, 5000);
 }
-// ===== SON VICTOIRE QUAND ÇA CASSE : DO-MI-SOL-DO, PLAISANT =====
+function chooseMyMusic(){ $('musicFile').click(); }
+$('musicFile').addEventListener('change', e=>{
+  const f=e.target.files[0]; if(!f) return;
+  if(myMusicURL) URL.revokeObjectURL(myMusicURL);
+  myMusicURL=URL.createObjectURL(f);
+  S.myMusicName=f.name; S.music=true; save(); syncSettingsUI();
+  stopMusic(); startMusic();
+  toast('🎵 Ta musique : '+f.name);
+});
+function removeMyMusic(){
+  if(myMusicURL) URL.revokeObjectURL(myMusicURL);
+  myMusicURL=null; S.myMusicName=''; save(); syncSettingsUI(); stopMusic(); startMusic();
+  toast('Retour à la musique libre');
+}
+// ===== "OH !" DU PUBLIC - COMME AU STADE, PAS DE MOTS, JUSTE INTONATION =====
+// On simule une foule qui fait "Ohhh" : plusieurs voix graves + aigües, qui montent puis redescendent, très subtil
+let lastOh=0;
+function playCrowdOh(intensity){
+  if(!S.voice || !S.sound) return;
+  const ctx=getAudio(); if(!ctx) return;
+  try{
+    if(Date.now()-lastOh<2000) return; // pas trop souvent
+    lastOh=Date.now();
+    const volBase=(S.volSound||70)/100 * (0.04 + intensity*0.02); // subtil, pas fort
+    const now=ctx.currentTime;
+    // 5 petites voix, comme une foule
+    for(let v=0; v<5; v++){
+      const o=ctx.createOscillator(), g=ctx.createGain(), f=ctx.createBiquadFilter();
+      o.type='sawtooth';
+      const baseFreq=180 + v*35 + Math.random()*20;
+      o.frequency.setValueAtTime(baseFreq, now);
+      o.frequency.linearRampToValueAtTime(baseFreq*1.25, now+0.25); // monte comme "Oh"
+      o.frequency.linearRampToValueAtTime(baseFreq*0.95, now+0.7); // redescend
+      f.type='bandpass'; f.frequency.value=750; f.Q.value=1.2; // pour faire son "Oh", pas un bip
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(volBase/5, now+0.15);
+      g.gain.linearRampToValueAtTime(volBase/5*0.7, now+0.45);
+      g.gain.exponentialRampToValueAtTime(0.0001, now+0.8 + intensity*0.2);
+      o.connect(f); f.connect(g); g.connect(ctx.destination);
+      o.start(now + v*0.02); o.stop(now+1.1);
+    }
+    // Petit bruit de foule / applaudissement très léger en fond
+    const len=ctx.sampleRate*0.5;
+    const buf=ctx.createBuffer(1,len,ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*0.12*(1-i/len);
+    const src=ctx.createBufferSource(); src.buffer=buf;
+    const g2=ctx.createGain(); g2.gain.value=volBase*0.35;
+    const hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=2000;
+    src.connect(hp); hp.connect(g2); g2.connect(ctx.destination); src.start(now+0.1);
+  }catch(e){}
+}
 function playVictory(lines, chain){
   if(!S.sound) return;
   const ctx=getAudio(); if(!ctx) return;
-  // Plus tu casses, plus c'est haut et joyeux
   const base = 523.25 * Math.pow(1.059, Math.min(4, (lines-1)*2 + chain*2));
   const notes=[1, 1.25, 1.5, 2];
   notes.forEach((mult,i)=>{
     try{
       const o=ctx.createOscillator(), o2=ctx.createOscillator(), g=ctx.createGain();
       o.type='sine'; o.frequency.value=base*mult; o2.type='triangle'; o2.frequency.value=base*mult*2;
-      const now=ctx.currentTime + i*0.09;
+      const now=ctx.currentTime + i*0.11;
       const vol=(S.volSound||70)/100*0.09;
-      g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(vol,now+0.02); g.gain.exponentialRampToValueAtTime(0.0001,now+0.45);
-      o.connect(g); o2.connect(g); g.connect(ctx.destination); o.start(now); o2.start(now); o.stop(now+0.5); o2.stop(now+0.5);
+      g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(vol,now+0.03); g.gain.exponentialRampToValueAtTime(0.0001,now+0.55);
+      o.connect(g); o2.connect(g); g.connect(ctx.destination); o.start(now); o2.start(now); o.stop(now+0.6); o2.stop(now+0.6);
     }catch(e){}
   });
-  // Petite étincelle aiguë à la fin
   try{
     const o=ctx.createOscillator(), g=ctx.createGain();
-    o.type='sine'; o.frequency.value=base*4; const now=ctx.currentTime+0.38;
-    g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(0.05,now+0.02); g.gain.exponentialRampToValueAtTime(0.0001,now+0.35);
-    o.connect(g); g.connect(ctx.destination); o.start(now); o.stop(now+0.4);
+    o.type='sine'; o.frequency.value=base*4; const now=ctx.currentTime+0.48;
+    g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(0.05,now+0.03); g.gain.exponentialRampToValueAtTime(0.0001,now+0.45);
+    o.connect(g); g.connect(ctx.destination); o.start(now); o.stop(now+0.5);
   }catch(e){}
+  // "Oh !" du public : petit pour 1 ligne, plus grand pour 2 lignes ou réaction
+  if(lines>=2 || chain>0){
+    setTimeout(()=>playCrowdOh(2), 450);
+  } else if(Math.random()<0.35){
+    setTimeout(()=>playCrowdOh(1), 450);
+  }
 }
-function testVictory(){ playVictory(2,1); toast('🏆 Tu as entendu ? C’est le bruit de victoire !'); }
+function testVictory(){ playVictory(2,1); toast('🙌 Tu entends le "Oh !" du public ?'); }
 function playSound(type){
   if(!S.sound) return;
   const ctx=getAudio(); if(!ctx) return;
@@ -287,16 +346,19 @@ function syncSettingsUI(){
   $('swMusic').classList.toggle('on', !!S.music);
   $('swSound').classList.toggle('on', !!S.sound);
   $('swVibrate').classList.toggle('on', !!S.vibrate);
+  if($('swVoice')) $('swVoice').classList.toggle('on', !!S.voice);
   $('volMusic').value=S.volMusic!=null?S.volMusic:35;
   $('volSound').value=S.volSound!=null?S.volSound:70;
   $('volMusicVal').textContent=(S.volMusic||35)+'%';
   $('volSoundVal').textContent=(S.volSound||70)+'%';
+  if($('myMusicName')) $('myMusicName').textContent=S.myMusicName ? '🎵 En cours : '+S.myMusicName : 'Aucune musique choisie - clique pour choisir';
   const file=$('bgFile'); if(file) file.volume=(S.volMusic||35)/100*0.6;
 }
 function toggleSetting(key){
   S[key]=!S[key]; save(); syncSettingsUI();
   if(key==='music'){ if(S.music){ startMusic(); toast('🎵 Musique activée'); } else { stopMusic(); toast('🔇 Musique coupée'); } }
   if(key==='sound'&&S.sound) playSound('line');
+  if(key==='voice'&&S.voice) playCrowdOh(2);
   if(key==='vibrate'&&S.vibrate){ vibrate(20); toast('📳 Vibration activée'); }
 }
 function setVolume(key,val){
@@ -337,7 +399,6 @@ function checkUnlock(){
 }
 const SHAPES=['1','11','111','1111','11111','1|1','1|1|1','1|1|1|1','1|1|1|1|1','11|11','111|111|111','111|111','11|11|11','10|11','01|11','11|10','11|01','100|100|111','001|001|111','111|100|100','111|001|001','111|010','010|111','110|011','011|110'].map(s=>{const rows=s.split('|'),cells=[];rows.forEach((r,i)=>[...r].forEach((ch,j)=>{if(ch==='1')cells.push([i,j])}));return{cells,h:rows.length,w:rows[0].length}});
 const EASY=SHAPES.filter(s=>s.cells.length<=4);
-// ===== COULEURS COMME TA PHOTO : VIOLET, CYAN, ORANGE, VERT, JAUNE =====
 const PHOTO_COLORS=['#A855F7','#22D3EE','#F97316','#22C55E','#EAB308'];
 const THEMES=[
   {n:'Couleurs photo (violet, cyan, orange, vert, jaune)',c:PHOTO_COLORS,cost:0},
@@ -422,11 +483,24 @@ function resolve(chain){
   for(let i=0;i<N;i++){if(grid[i].every(v=>v))rows.push(i);if(grid.every(row=>row[i]))cols.push(i)}
   const lines=rows.length+cols.length;
   if(!lines){finish();return}
-  const set=new Set(); rows.forEach(i=>{for(let j=0;j<N;j++)set.add(i*N+j)});cols.forEach(j=>{for(let i=0;i<N;i++)set.add(i*N+j)});
-  flashCells=[...set].map(k=>({i:Math.floor(k/N),j:k%N,t:0}));
+  const ordered=[];
+  rows.forEach(i=>{ for(let j=0;j<N;j++) ordered.push({i,j}); });
+  cols.forEach(j=>{ for(let i=0;i<N;i++) if(!rows.includes(i)) ordered.push({i,j}); });
+  ordered.forEach((cell,k)=>{
+    setTimeout(()=>{ flashCells.push({i:cell.i,j:cell.j,t:0}); }, k*45);
+  });
+  const totalDelay = ordered.length*45 + 180;
+  ordered.forEach((cell,k)=>{
+    setTimeout(()=>{
+      flashCells=flashCells.filter(f=>!(f.i===cell.i&&f.j===cell.j));
+      if(grid[cell.i][cell.j]){
+        burst(cell.i,cell.j,COLORS[(grid[cell.i][cell.j]-1+7)%7]);
+        grid[cell.i][cell.j]=0;
+        if(S.sound){ try{ const c=getAudio(); if(c){ const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=800+k*30; const now=c.currentTime; g.gain.setValueAtTime(0.03,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.08); o.connect(g); g.connect(c.destination); o.start(now); o.stop(now+0.09); } }catch(e){} }
+      }
+    }, totalDelay + k*70);
+  });
   setTimeout(()=>{
-    flashCells=[];
-    set.forEach(k=>{const i=Math.floor(k/N),j=k%N;burst(i,j,COLORS[(grid[i][j]-1+7)%7]);grid[i][j]=0});
     const pts=Math.round(10*lines*(lines+chain)*curLevel().mult);
     score+=pts; scorePop=1;
     playVictory(lines, chain); vibrate(15);
@@ -437,8 +511,8 @@ function resolve(chain){
     else if(lines>1) say('✨ x'+lines+' LIGNES ✨','#fde047',W/2,BY+120,24);
     else floatScore('+'+pts, W/2, BY+120, '#fde047');
     checkUnlock();
-    setTimeout(()=>settle(chain+1),380);
-  },220);
+    setTimeout(()=>settle(chain+1), 380);
+  }, totalDelay + ordered.length*70 + 120);
 }
 function settle(chain){
   const moves=[];
@@ -472,19 +546,13 @@ $('chestBtn').onclick=()=>{ if(S.chest>Date.now())return toast('Reviens bientôt
 function openThemes(){ const box=$('themeList');box.innerHTML=''; THEMES.forEach((t,i)=>{ const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-top:8px;text-align:left'; const sw=document.createElement('div');sw.style.cssText='display:flex;gap:3px;flex:1;align-items:center;font-size:14px'; sw.innerHTML='<span style="flex:1">'+t.n+'</span>'+t.c.slice(0,3).map(c=>'<i style="width:14px;height:14px;border-radius:4px;background:'+c+'"></i>').join(''); const b=document.createElement('button');b.className='b';b.style.cssText='width:105px;margin:0;padding:8px;font-size:14px'; const owned=S.owned.includes(i); b.textContent=S.theme===i?'✔ Actif':owned?'Choisir':(t.cost+' 💰');b.disabled=S.theme===i; b.onclick=()=>{ if(owned){S.theme=i;COLORS=t.c;save();openThemes();return} if(S.coins>=t.cost){S.coins-=t.cost;S.owned.push(i);S.theme=i;COLORS=t.c;save();ui();openThemes()} else offer('Pas assez de pièces. Regarde une pub pour débloquer « '+t.n+' » ?','theme',()=>{S.owned.push(i);S.theme=i;COLORS=t.c;save();openThemes()}); }; row.appendChild(sw);row.appendChild(b);box.appendChild(row); }); $('themes').classList.add('show'); }
 $('themeBtn').onclick=openThemes;$('themeClose').onclick=()=>$('themes').classList.remove('show');
 function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
-// ===== BLOC 3D COMME TA PHOTO : brillant en haut, ombre en bas, bordure claire =====
 function gem(x,y,s,col,a=1,scale=1){
   ctx.save(); ctx.globalAlpha=a; ctx.translate(x+s/2,y+s/2); ctx.scale(scale,scale); ctx.translate(-s/2,-s/2);
-  // Corps principal
   ctx.fillStyle=col; rr(1,1,s-2,s-2,8); ctx.fill();
-  // Bordure plus claire en haut à gauche, comme sur la photo
   ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=1.5; rr(2,2,s-4,s-4,7); ctx.stroke();
-  // Brillant en haut - comme sur ta photo
   ctx.fillStyle='rgba(255,255,255,.38)'; rr(5,4,s-10,(s-10)/2.6,5); ctx.fill();
   ctx.fillStyle='rgba(255,255,255,.18)'; rr(5,4+(s-10)/2.6+2,s-10,2,1); ctx.fill();
-  // Ombre en bas - effet 3D
   ctx.fillStyle='rgba(0,0,0,.22)'; rr(4,s-11,s-8,5,2); ctx.fill();
-  // Petit point brillant au centre
   ctx.fillStyle='rgba(255,255,255,.22)'; ctx.beginPath(); ctx.arc(s/2,s/2-2, s*0.08,0,6.28); ctx.fill();
   ctx.restore();
 }

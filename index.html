@@ -6,29 +6,24 @@
 <title>Block Puzzle Gems - Jeu de puzzle de blocs gratuit en ligne</title>
 <meta name="description" content="Block Puzzle Gems : jeu de puzzle de blocs gratuit en ligne. Place les blocs, complète les lignes, déclenche des réactions en chaîne et bats ton record ! Joue sans téléchargement sur mobile et ordinateur.">
 <meta name="keywords" content="block puzzle, puzzle blocs, jeu de blocs, jeu puzzle gratuit, jeu en ligne gratuit, casse-tête, block puzzle gratuit">
-
-<!-- ADSENSE : remplace ca-pub-XXXXXXXXXXXXXXXX par ton vrai ID -->
 <script async data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <script>
   window.adsbygoogle = window.adsbygoogle || [];
   window.adBreak = window.adConfig = function(o){ adsbygoogle.push(o); };
   adConfig({ preloadAdBreaks: 'on', sound: 'on' });
 </script>
-
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;background:#0f1535;font-family:system-ui,Arial,sans-serif;color:#fff;line-height:1.6}
+  body{margin:0;background:#0f1535;font-family:system-ui,Arial,sans-serif;color:#fff;line-height:1.6;padding-bottom:20px}
   a{color:#a5b4fc}
-  /* HEADER SITE */
   header{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
   header .logo{font-weight:900;font-size:20px}
   header nav a{margin-left:14px;text-decoration:none;font-weight:700;font-size:14px}
   .hero{max-width:1000px;margin:0 auto;padding:10px 16px 4px;text-align:center}
   .hero h1{font-size:32px;line-height:1.1;margin:6px 0;color:#a5b4fc}
   .hero p{opacity:.9;max-width:720px;margin:8px auto}
-  /* JEU */
-  #gameWrap{max-width:480px;margin:10px auto;background:#1a2060;border:2px solid #4c56a8;border-radius:22px;overflow:hidden}
-  #app{height:640px;display:flex;flex-direction:column}
+  #gameWrap{max-width:480px;margin:10px auto;background:#1a2060;border:2px solid #4c56a8;border-radius:22px;overflow:hidden;position:relative}
+  #app{height:640px;display:flex;flex-direction:column;position:relative}
   #stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
   canvas{display:block}
   #tools{display:flex;gap:6px;padding:6px 8px}
@@ -38,8 +33,11 @@
   #tools button:active{transform:translateY(3px);box-shadow:0 1px 0 #312e81}
   .adbox{min-height:50px;text-align:center;overflow:hidden;background:#0b0f2e}
   body.native .adbox{display:none}
-  .modal{position:fixed;inset:0;background:rgba(8,10,30,.88);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+  /* CORRIGÉ : modals du JEU restent DANS le jeu */
+  .modal{position:absolute;inset:0;background:rgba(8,10,30,.95);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
   .modal.show{display:flex}
+  /* CORRIGÉ : modals PAGES légales restent en plein écran */
+  .page-modal{position:fixed;z-index:2000}
   .card{background:#1c2250;border:2px solid #4c56a8;border-radius:22px;padding:18px;width:100%;max-width:350px;text-align:center}
   .card h1{margin:0;font-size:30px;line-height:1.1;color:#a5b4fc;text-shadow:0 3px 0 #312e81}
   .card h2{margin:0 0 6px}
@@ -49,25 +47,26 @@
   button.b.g{background:#16a34a;box-shadow:0 4px 0 #0e6b30}
   button.b.o{background:#f59e0b;box-shadow:0 4px 0 #a86a00}
   button.b:disabled{background:#555;box-shadow:0 4px 0 #333;opacity:.6}
-  #toast{position:fixed;left:50%;top:60px;transform:translateX(-50%);background:#000c;padding:8px 14px;border-radius:999px;opacity:0;transition:.3s;z-index:300;pointer-events:none;font-size:14px;text-align:center}
+  #toast{position:fixed;left:50%;top:60px;transform:translateX(-50%);background:#000c;padding:8px 14px;border-radius:999px;opacity:0;transition:.3s;z-index:3000;pointer-events:none;font-size:14px;text-align:center}
   #toast.show{opacity:1}
   @keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
   .pulse{animation:pu 1s infinite}
-  /* CONTENU SEO */
-  .content{max-width:1000px;margin:0 auto;padding:10px 16px 30px}
+  .content{max-width:1000px;margin:0 auto;padding:10px 16px 30px;position:relative;z-index:1}
   .content h2{color:#a5b4fc;margin-top:28px}
   .content h3{margin-bottom:4px}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   @media(max-width:700px){.grid2{grid-template-columns:1fr} header nav{display:none}}
   footer{max-width:1000px;margin:0 auto;padding:20px 16px;border-top:1px solid #333a7a;text-align:center;font-size:13px;opacity:.85}
   footer a{margin:0 8px}
-  #cookieBar{position:fixed;left:0;right:0;bottom:0;background:#1c2250;border-top:2px solid #4c56a8;padding:12px 16px;text-align:center;z-index:500;display:none;font-size:14px}
-  #cookieBar button{background:#16a34a;color:#fff;border:0;padding:8px 16px;border-radius:10px;font-weight:800;margin-left:8px}
+  /* CORRIGÉ : Bandeau cookies */
+  #cookieBar{position:fixed;left:10px;right:10px;bottom:10px;background:#1c2250;border:2px solid #4c56a8;border-radius:14px;padding:14px;text-align:center;z-index:5000;display:none;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  #cookieBar button{display:block;width:100%;background:#16a34a;color:#fff;border:0;padding:12px;border-radius:10px;font-weight:800;margin-top:10px;font-size:16px}
   .page-modal .card{max-width:600px;text-align:left;max-height:85vh;overflow:auto}
+  /* Cacher badge Netlify */
+  a[href*="netlify"], iframe[title*="Netlify"], div[class*="netlify"]{display:none !important}
 </style>
 </head>
 <body>
-
 <header>
   <div class="logo">💎 Block Puzzle Gems</div>
   <nav>
@@ -78,14 +77,11 @@
     <a href="#" onclick="openPage('contact');return false">Contact</a>
   </nav>
 </header>
-
 <div class="hero">
   <h1>Block Puzzle Gems - Jeu de puzzle de blocs gratuit en ligne</h1>
   <p>Bienvenue sur <b>Block Puzzle Gems</b>, le jeu de puzzle de blocs addictif et 100% gratuit. Glisse les blocs colorés sur la grille 8x8, complète des lignes entières pour les faire disparaître, et déclenche des réactions en chaîne pour exploser ton score. Aucun téléchargement, aucune inscription : tu joues directement sur ton mobile, ta tablette ou ton ordinateur, sur <b>puzzle.mdigistarx.tech</b>.</p>
   <p>Que tu aies 2 minutes dans le taxi ou 1 heure à la maison, c'est le jeu parfait pour te détendre et entraîner ton cerveau.</p>
 </div>
-
-<!-- ================= LE JEU ================= -->
 <div id="jeu">
 <div id="gameWrap">
 <div id="app">
@@ -99,51 +95,44 @@
   <div class="adbox" id="adBottom">
     <ins class="adsbygoogle" style="display:block;width:100%;height:50px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="3333333333"></ins>
   </div>
+  <div class="modal show" id="menu"><div class="card">
+    <h1>BLOCK PUZZLE<br>GEMS</h1>
+    <p>Glisse les blocs sur la grille.<br>Complète des lignes : les blocs restants <b>tombent</b> et peuvent déclencher des <b>réactions en chaîne</b> !</p>
+    <p>🏆 Record : <b id="mBest">0</b> &nbsp; 💰 <b id="mCoins">0</b></p>
+    <button class="b g" id="playBtn">▶ JOUER</button>
+    <button class="b o" id="giftBtn">🎁 Cadeau du jour</button>
+    <button class="b o" id="chestBtn">📦 Coffre gratuit</button>
+    <button class="b" id="themeBtn">🎨 Thèmes de blocs</button>
+  </div></div>
+  <div class="modal" id="over"><div class="card">
+    <h2>Plus de place ! 😮</h2>
+    <p>Score : <b id="oScore">0</b> &nbsp; 🏆 <b id="oBest">0</b></p>
+    <div id="overAd" style="display:none;margin:8px 0">
+      <ins class="adsbygoogle" style="display:inline-block;width:300px;height:100px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222"></ins>
+    </div>
+    <button class="b o" id="reviveBtn">🎬 Continuer (regarder une pub)</button>
+    <button class="b o" id="doubleBtn">🎬 Doubler mes pièces (+<span id="oC">0</span> 💰)</button>
+    <button class="b g" id="againBtn">🔄 Rejouer</button>
+  </div></div>
+  <div class="modal" id="themes"><div class="card">
+    <h2>🎨 Thèmes de blocs</h2>
+    <div id="themeList"></div>
+    <button class="b" id="themeClose">Retour</button>
+  </div></div>
+  <div class="modal" id="offer" style="z-index:150"><div class="card">
+    <h2>🎁 Bonus gratuit</h2>
+    <p id="offerMsg"></p>
+    <button class="b g" id="offerYes">🎬 Regarder la pub</button>
+    <button class="b" id="offerNo">Non merci</button>
+  </div></div>
+  <div class="modal" id="fakeAd" style="z-index:400"><div class="card">
+    <h2>🎬 Pub (simulation)</h2>
+    <p>Ici s'affichera une vraie pub.<br>Récompense dans <b id="fakeT">3</b>s…</p>
+  </div></div>
 </div>
 </div>
 </div>
 <div id="toast"></div>
-
-<div class="modal show" id="menu"><div class="card">
-  <h1>BLOCK PUZZLE<br>GEMS</h1>
-  <p>Glisse les blocs sur la grille.<br>Complète des lignes : les blocs restants <b>tombent</b> et peuvent déclencher des <b>réactions en chaîne</b> !</p>
-  <p>🏆 Record : <b id="mBest">0</b> &nbsp; 💰 <b id="mCoins">0</b></p>
-  <button class="b g" id="playBtn">▶ JOUER</button>
-  <button class="b o" id="giftBtn">🎁 Cadeau du jour</button>
-  <button class="b o" id="chestBtn">📦 Coffre gratuit</button>
-  <button class="b" id="themeBtn">🎨 Thèmes de blocs</button>
-</div></div>
-
-<div class="modal" id="over"><div class="card">
-  <h2>Plus de place ! 😮</h2>
-  <p>Score : <b id="oScore">0</b> &nbsp; 🏆 <b id="oBest">0</b></p>
-  <div id="overAd" style="display:none;margin:8px 0">
-    <ins class="adsbygoogle" style="display:inline-block;width:300px;height:100px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222"></ins>
-  </div>
-  <button class="b o" id="reviveBtn">🎬 Continuer (regarder une pub)</button>
-  <button class="b o" id="doubleBtn">🎬 Doubler mes pièces (+<span id="oC">0</span> 💰)</button>
-  <button class="b g" id="againBtn">🔄 Rejouer</button>
-</div></div>
-
-<div class="modal" id="themes"><div class="card">
-  <h2>🎨 Thèmes de blocs</h2>
-  <div id="themeList"></div>
-  <button class="b" id="themeClose">Retour</button>
-</div></div>
-
-<div class="modal" id="offer" style="z-index:150"><div class="card">
-  <h2>🎁 Bonus gratuit</h2>
-  <p id="offerMsg"></p>
-  <button class="b g" id="offerYes">🎬 Regarder la pub</button>
-  <button class="b" id="offerNo">Non merci</button>
-</div></div>
-
-<div class="modal" id="fakeAd" style="z-index:400"><div class="card">
-  <h2>🎬 Pub (simulation)</h2>
-  <p>Ici s'affichera une vraie pub.<br>Récompense dans <b id="fakeT">3</b>s…</p>
-</div></div>
-
-<!-- ================= CONTENU POUR ADSENSE ================= -->
 <div class="content">
   <h2 id="comment-jouer">Comment jouer à Block Puzzle Gems ?</h2>
   <p>Le principe est très simple, mais il faut réfléchir pour battre ton record :</p>
@@ -154,7 +143,6 @@
     <li><b>4. Profite de la gravité :</b> après une ligne effacée, les blocs restants tombent vers le bas et peuvent créer une nouvelle ligne. C'est ça, la réaction en chaîne !</li>
     <li><b>5. Ne bloque pas la grille :</b> si aucun des 3 blocs ne peut être posé, la partie est terminée. Utilise une bombe, un changement de blocs ou une annulation pour te sauver.</li>
   </ol>
-
   <h2 id="astuces">7 astuces pour battre ton record</h2>
   <div class="grid2">
     <div><h3>1. Garde toujours le centre libre</h3><p>Ne remplis pas le centre trop vite. Laisse de la place pour les grandes pièces de 4 ou 5 cases.</p></div>
@@ -165,11 +153,9 @@
     <div><h3>6. Reviens chaque jour</h3><p>Le cadeau du jour et le coffre gratuit te donnent des pièces gratuites. Plus ta série est longue, plus tu gagnes.</p></div>
   </div>
   <p><b>7. Prends ton temps :</b> il n'y a pas de chronomètre dans Block Puzzle Gems. Réfléchis, c'est un jeu de logique, pas de vitesse.</p>
-
   <h2>Pourquoi jouer à Block Puzzle Gems ?</h2>
   <p>Block Puzzle Gems est inspiré des grands jeux de puzzle du Play Store comme Blockudoku, 1010! ou Block Puzzle Jewel. Mais ici, tout est gratuit et sans téléchargement. Tu peux jouer à l'école, au travail pendant ta pause, dans le bus ou à la maison. Le jeu fonctionne sur Android, iPhone, tablette et ordinateur, même avec une connexion lente. Il est léger, rapide, et il sauvegarde ton record et tes pièces automatiquement sur ton appareil. C'est le jeu parfait pour les fans de Tetris, de Sudoku et de casse-tête. Si tu aimes réfléchir, anticiper et créer des combos, tu vas adorer les réactions en chaîne et les explosions de gemmes.</p>
   <p>Notre mission avec MdigistarX est de créer des jeux simples, gratuits et accessibles à tous en Afrique et dans le monde. Block Puzzle Gems est notre premier jeu, et d'autres jeux de puzzle arrivent bientôt.</p>
-
   <h2 id="faq">Questions fréquentes (FAQ)</h2>
   <h3>Le jeu est-il vraiment gratuit ?</h3><p>Oui, 100% gratuit. Tu peux jouer sans limite. Les pubs optionnelles te permettent de gagner des bonus, mais tu n'es jamais obligé de les regarder.</p>
   <h3>Est-ce que je dois télécharger une application ?</h3><p>Non. Tu joues directement sur puzzle.mdigistarx.tech depuis ton navigateur. Une version application Android arrive bientôt sur le Play Store.</p>
@@ -177,7 +163,6 @@
   <h3>Comment gagner plus de pièces ?</h3><p>Complète des lignes, ouvre le coffre toutes les 4 minutes, réclame ton cadeau du jour, ou regarde une pub récompensée pour doubler tes gains.</p>
   <h3>Le jeu est-il adapté aux enfants ?</h3><p>Oui, c'est un jeu familial, sans violence, qui développe la logique, la concentration et la réflexion.</p>
 </div>
-
 <footer>
   <p>© 2026 MdigistarX - Block Puzzle Gems - Tous droits réservés</p>
   <p>
@@ -187,21 +172,15 @@
   </p>
   <p>Contact : contact@mdigistarx.tech - Site : puzzle.mdigistarx.tech</p>
 </footer>
-
-<!-- Pages légales -->
 <div class="modal page-modal" id="page-privacy"><div class="card"><h2>Politique de confidentialité</h2><p>Dernière mise à jour : 12 novembre 2026. Ce site, puzzle.mdigistarx.tech, édité par MdigistarX, propose le jeu gratuit Block Puzzle Gems.</p><p><b>Données collectées :</b> Nous ne collectons pas de nom, d'adresse ou de numéro de téléphone. Ton score, tes pièces et tes préférences sont sauvegardés uniquement dans ton navigateur (localStorage).</p><p><b>Cookies et publicités :</b> Nous utilisons Google AdSense pour afficher des publicités. Google peut utiliser des cookies pour personnaliser les annonces. Tu peux désactiver la personnalisation dans les paramètres de ton compte Google.</p><p><b>Contact :</b> Pour toute question, écris à contact@mdigistarx.tech.</p><button class="b" onclick="closePage()">Fermer</button></div></div>
 <div class="modal page-modal" id="page-contact"><div class="card"><h2>Contact</h2><p>Une question, une suggestion, un bug ?</p><p>Écris-nous à : <b>contact@mdigistarx.tech</b></p><p>Nous répondons en général sous 48h.</p><button class="b" onclick="closePage()">Fermer</button></div></div>
 <div class="modal page-modal" id="page-about"><div class="card"><h2>À propos de MdigistarX</h2><p>MdigistarX est un projet de création de jeux et d'applications web simples et accessibles. Notre objectif : proposer des jeux gratuits, légers et amusants pour tous, en Afrique et dans le monde. Block Puzzle Gems est notre premier jeu de puzzle.</p><p>Site : puzzle.mdigistarx.tech - Email : contact@mdigistarx.tech</p><button class="b" onclick="closePage()">Fermer</button></div></div>
-
 <div id="cookieBar">Ce site utilise des cookies pour améliorer ton expérience et afficher des publicités. <button onclick="acceptCookies()">J'accepte</button></div>
-
 <script>
 function openPage(n){document.querySelectorAll('.page-modal').forEach(m=>m.classList.remove('show'));document.getElementById('page-'+n).classList.add('show')}
 function closePage(){document.querySelectorAll('.page-modal').forEach(m=>m.classList.remove('show'))}
-if(!localStorage.getItem('cookieOk')) document.getElementById('cookieBar').style.display='block';
+setTimeout(()=>{ if(!localStorage.getItem('cookieOk')) document.getElementById('cookieBar').style.display='block'; }, 1500);
 function acceptCookies(){localStorage.setItem('cookieOk','1');document.getElementById('cookieBar').style.display='none'}
-
-// ===================== TON CODE DE JEU INCHANGÉ CI-DESSOUS =====================
 const DEMO_MODE = true;
 const INTERSTITIAL_COOLDOWN = 120000;
 const ADMOB = { banner:'ca-app-pub-3940256099942544/6300978111', inter :'ca-app-pub-3940256099942544/1033173712', reward:'ca-app-pub-3940256099942544/5224354917' };

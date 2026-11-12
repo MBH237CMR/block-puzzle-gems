@@ -9,6 +9,7 @@
 <script>window.adsbygoogle=window.adsbygoogle||[];window.adBreak=window.adConfig=function(o){adsbygoogle.push(o)};adConfig({preloadAdBreaks:'on',sound:'on'});</script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overscroll-behavior:none}
 body{margin:0;background:#0f1535;font-family:system-ui,Arial,sans-serif;color:#fff;line-height:1.6;padding-bottom:20px}
 a{color:#a5b4fc}
 header{max-width:1000px;margin:0 auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
@@ -17,15 +18,14 @@ header nav a{margin-left:14px;text-decoration:none;font-weight:700;font-size:14p
 .hero{max-width:1000px;margin:0 auto;padding:10px 16px 4px;text-align:center}
 .hero h1{font-size:28px;line-height:1.1;margin:6px 0;color:#a5b4fc}
 .hero p{opacity:.9;max-width:720px;margin:8px auto;font-size:15px}
-#gameWrap{max-width:480px;margin:10px auto;background:#1a2060;border:2px solid #4c56a8;border-radius:22px;overflow:hidden;position:relative}
-#app{height:640px;display:flex;flex-direction:column;position:relative}
-#stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-canvas{display:block}
+#gameWrap{max-width:480px;margin:10px auto;background:#1a2060;border:2px solid #4c56a8;border-radius:22px;overflow:hidden;position:relative;touch-action:none;overscroll-behavior:none}
+#app{height:640px;display:flex;flex-direction:column;position:relative;touch-action:none}
+#stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;touch-action:none}
+canvas{display:block;touch-action:none}
 #tools{display:flex;gap:6px;padding:6px 8px}
-#tools button{flex:1;font-size:14px;font-weight:800;border:0;border-radius:14px;padding:10px 2px;color:#fff;background:#4f46e5;box-shadow:0 4px 0 #312e81}
+#tools button{flex:1;font-size:14px;font-weight:800;border:0;border-radius:14px;padding:10px 2px;color:#fff;background:#4f46e5;box-shadow:0 4px 0 #312e81;touch-action:manipulation}
 #tools button.on{background:#f59e0b;box-shadow:0 4px 0 #a86a00}
 #tools button.ad{background:#16a34a;box-shadow:0 4px 0 #0e6b30}
-/* ADSENSE : pub séparée du jeu, jamais collée aux boutons */
 .adbox{min-height:50px;text-align:center;overflow:hidden;background:#0b0f2e;margin-top:8px}
 body.native .adbox{display:none}
 .modal{position:absolute;inset:0;background:rgba(8,10,30,.95);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
@@ -39,9 +39,8 @@ button.b.g{background:#16a34a;box-shadow:0 4px 0 #0e6b30}button.b.o{background:#
 #toast{position:fixed;left:50%;top:60px;transform:translateX(-50%);background:#000c;padding:8px 14px;border-radius:999px;opacity:0;transition:.3s;z-index:3000;pointer-events:none;font-size:14px}
 #toast.show{opacity:1}
 @keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}.pulse{animation:pu 1s infinite}
-/* ONGLETS - BOUTONS */
 .tabs{max-width:1000px;margin:18px auto 0;padding:0 16px;display:flex;gap:8px}
-.tabs button{flex:1;border:0;border-radius:12px;padding:12px 4px;font-weight:800;font-size:14px;background:#232a70;color:#fff;cursor:pointer}
+.tabs button{flex:1;border:0;border-radius:12px;padding:12px 4px;font-weight:800;font-size:14px;background:#232a70;color:#fff;cursor:pointer;touch-action:manipulation}
 .tabs button.active{background:#4f46e5;box-shadow:0 3px 0 #312e81}
 .tab-content{max-width:1000px;margin:0 auto;padding:10px 16px 20px}
 .tab-panel{display:none}
@@ -69,8 +68,6 @@ a[href*="netlify"],iframe[title*="Netlify"]{display:none!important}
 <div class="modal" id="fakeAd" style="z-index:400"><div class="card"><h2>🎬 Pub (simulation)</h2><p>Ici s'affichera une vraie pub.<br>Récompense dans <b id="fakeT">3</b>s…</p></div></div>
 </div></div></div>
 <div id="toast"></div>
-
-<!-- BOUTONS ONGLETS -->
 <div class="tabs" id="tabs">
   <button class="active" onclick="showTab('how',this)">📖 Comment jouer</button>
   <button onclick="showTab('tips',this)">💡 Astuces</button>
@@ -79,92 +76,4 @@ a[href*="netlify"],iframe[title*="Netlify"]{display:none!important}
 <div class="tab-content">
   <div class="tab-panel active" id="tab-how">
     <h2>Comment jouer à Block Puzzle Gems ?</h2>
-    <ol><li><b>1. Prends un bloc</b> parmi les 3 proposés en bas. Carrés, lignes, L, T, grandes barres.</li><li><b>2. Glisse-le sur la grille 8x8</b> et dépose-le où tu veux. Il doit rentrer entièrement.</li><li><b>3. Complète une ligne ou une colonne</b> pour la faire disparaître et gagner des points et des pièces.</li><li><b>4. Profite de la gravité :</b> après une ligne effacée, les blocs tombent et peuvent créer une nouvelle ligne. C'est la réaction en chaîne !</li><li><b>5. Ne bloque pas la grille :</b> si aucun bloc ne peut être posé, la partie est terminée. Utilise une bombe, un changement ou une annulation.</li></ol>
-    <h2>Pourquoi jouer ?</h2><p>Block Puzzle Gems est inspiré de Blockudoku, 1010! ou Block Puzzle Jewel, mais ici tout est gratuit et sans téléchargement. Tu peux jouer dans le bus, à la maison, à l'école pendant la pause. Le jeu fonctionne sur Android, iPhone, tablette et ordinateur, même avec une connexion lente. Il sauvegarde ton record et tes pièces automatiquement. C'est le jeu parfait pour les fans de Tetris, de Sudoku et de casse-tête. Notre mission avec MdigistarX est de créer des jeux simples, gratuits et accessibles à tous en Afrique et dans le monde.</p>
-  </div>
-  <div class="tab-panel" id="tab-tips">
-    <h2>7 astuces pour battre ton record</h2>
-    <div class="grid2"><div><h3>1. Garde le centre libre</h3><p>Ne remplis pas le centre trop vite. Laisse de la place pour les grandes pièces.</p></div><div><h3>2. Vise 2 lignes d'un coup</h3><p>Effacer 2 lignes en même temps rapporte beaucoup plus.</p></div><div><h3>3. Pense à la chute</h3><p>Imagine où vont tomber les blocs du dessus après l'explosion.</p></div><div><h3>4. Garde tes bonus</h3><p>Ne gaspille pas ta bombe au début. Garde-la pour quand la grille est à 80%.</p></div><div><h3>5. Utilise les petits blocs</h3><p>Parfaits pour boucher les trous et finir une ligne.</p></div><div><h3>6. Reviens chaque jour</h3><p>Cadeau du jour + coffre gratuit = pièces gratuites. Plus ta série est longue, plus tu gagnes.</p></div></div><p><b>7. Prends ton temps :</b> il n'y a pas de chronomètre. Réfléchis, c'est un jeu de logique.</p>
-  </div>
-  <div class="tab-panel" id="tab-faq">
-    <h2>Questions fréquentes (FAQ)</h2>
-    <h3>Le jeu est-il vraiment gratuit ?</h3><p>Oui, 100% gratuit. Tu peux jouer sans limite. Les pubs optionnelles te donnent des bonus, mais tu n'es jamais obligé de les regarder.</p>
-    <h3>Dois-je télécharger une application ?</h3><p>Non. Tu joues directement sur puzzle.mdigistarx.tech depuis ton navigateur. Une version Android arrive bientôt.</p>
-    <h3>Le jeu marche-t-il hors ligne ?</h3><p>Une fois la page chargée, tu peux jouer même avec une connexion instable. Ton score est sauvegardé sur ton téléphone.</p>
-    <h3>Comment gagner plus de pièces ?</h3><p>Complète des lignes, ouvre le coffre toutes les 4 minutes, réclame ton cadeau du jour, ou regarde une pub pour doubler tes gains.</p>
-    <h3>Le jeu est-il adapté aux enfants ?</h3><p>Oui, c'est un jeu familial, sans violence, qui développe la logique et la concentration.</p>
-  </div>
-</div>
-<footer><p>© 2026 MdigistarX - Block Puzzle Gems</p><p><a href="#" onclick="openPage('privacy');return false">Politique de confidentialité</a> | <a href="#" onclick="openPage('contact');return false">Contact</a> | <a href="#" onclick="openPage('about');return false">À propos</a></p><p>Contact : contact@mdigistarx.tech - Site : puzzle.mdigistarx.tech</p></footer>
-<div class="modal page-modal" id="page-privacy"><div class="card"><h2>Politique de confidentialité</h2><p>Dernière mise à jour : 12 novembre 2026. Ce site, puzzle.mdigistarx.tech, édité par MdigistarX, propose le jeu gratuit Block Puzzle Gems.</p><p><b>Données :</b> Nous ne collectons pas de nom ou de numéro. Ton score et tes pièces sont sauvegardés uniquement dans ton navigateur.</p><p><b>Cookies et publicités :</b> Nous utilisons Google AdSense. Google peut utiliser des cookies pour personnaliser les annonces.</p><p><b>Contact :</b> contact@mdigistarx.tech.</p><button class="b" onclick="closePage()">Fermer</button></div></div>
-<div class="modal page-modal" id="page-contact"><div class="card"><h2>Contact</h2><p>Une question, une suggestion, un bug ?</p><p>Écris-nous à : <b>contact@mdigistarx.tech</b></p><p>Nous répondons sous 48h.</p><button class="b" onclick="closePage()">Fermer</button></div></div>
-<div class="modal page-modal" id="page-about"><div class="card"><h2>À propos de MdigistarX</h2><p>MdigistarX crée des jeux et applications web simples et accessibles. Objectif : des jeux gratuits, légers et amusants pour tous, en Afrique et dans le monde. Block Puzzle Gems est notre premier jeu.</p><p>Site : puzzle.mdigistarx.tech - Email : contact@mdigistarx.tech</p><button class="b" onclick="closePage()">Fermer</button></div></div>
-<div id="cookieBar">Ce site utilise des cookies pour améliorer ton expérience et afficher des publicités. <button onclick="acceptCookies()">J'accepte</button></div>
-<script>
-function showTab(id,btn){document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active')}
-function openPage(n){document.querySelectorAll('.page-modal').forEach(m=>m.classList.remove('show'));document.getElementById('page-'+n).classList.add('show')}
-function closePage(){document.querySelectorAll('.page-modal').forEach(m=>m.classList.remove('show'))}
-setTimeout(()=>{ if(!localStorage.getItem('cookieOk')) document.getElementById('cookieBar').style.display='block'; }, 1500);
-function acceptCookies(){localStorage.setItem('cookieOk','1');document.getElementById('cookieBar').style.display='none'}
-const DEMO_MODE = true;
-const INTERSTITIAL_COOLDOWN = 120000;
-const ADMOB = { banner:'ca-app-pub-3940256099942544/6300978111', inter :'ca-app-pub-3940256099942544/1033173712', reward:'ca-app-pub-3940256099942544/5224354917' };
-const $=id=>document.getElementById(id);
-function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1900)}
-const Ads = {native: !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()),_got:false,_cb:null,loaded:new Set(),lastInter:0,loadWeb(el){ if(!el||this.loaded.has(el))return; this.loaded.add(el); try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){} },async init(){ if(!this.native){ this.loadWeb(document.querySelector('#adBottom ins')); return; } document.body.classList.add('native'); try{ const A=Capacitor.Plugins.AdMob; await A.initialize({}); A.addListener('onRewardedVideoAdReward',()=>{this._got=true}); A.addListener('onRewardedVideoAdDismissed',()=>{ if(this._got&&this._cb)this._cb(); else toast('Regarde la pub en entier pour la récompense'); this._got=false; this._cb=null }); A.showBanner({adId:ADMOB.banner,adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0}); }catch(e){} },rewarded(name,onReward){ if(DEMO_MODE){ $('fakeAd').classList.add('show'); let t=3; $('fakeT').textContent=t; const iv=setInterval(()=>{t--;$('fakeT').textContent=t;if(t<=0){clearInterval(iv);$('fakeAd').classList.remove('show');onReward()}},1000); return; } if(this.native){ const A=Capacitor.Plugins.AdMob; this._got=false; this._cb=onReward; A.prepareRewardVideoAd({adId:ADMOB.reward}).then(()=>A.showRewardVideoAd()).catch(()=>toast('Pub indisponible, réessaie plus tard')); return; } let ok=false; adBreak({type:'reward',name:name,beforeReward:s=>s(),adViewed:()=>{ok=true},adDismissed:()=>toast('Regarde la pub en entier pour la récompense'), adBreakDone:i=>{ if(ok) onReward(); else if(i.breakStatus!=='dismissed') toast('Aucune pub disponible, réessaie plus tard') }}); },interstitial(name){ if(DEMO_MODE||Date.now()-this.lastInter<INTERSTITIAL_COOLDOWN) return; this.lastInter=Date.now(); if(this.native){ const A=Capacitor.Plugins.AdMob; A.prepareInterstitial({adId:ADMOB.inter}).then(()=>A.showInterstitial()).catch(()=>{}); } else adBreak({type:'next',name:name}); }};
-Ads.init();
-let S=(()=>{try{return JSON.parse(localStorage.getItem('blockPuzzleGems'))}catch(e){return null}})()||{best:0,coins:0,bomb:1,swap:1,undo:1,games:0,daily:'',streak:0};
-const save=()=>{try{localStorage.setItem('blockPuzzleGems',JSON.stringify(S))}catch(e){}};
-S.theme=S.theme||0;S.owned=S.owned||[0,1];S.chest=S.chest||0;
-const SHAPES=['1','11','111','1111','11111','1|1','1|1|1','1|1|1|1','1|1|1|1|1','11|11','111|111|111','111|111','11|11|11','10|11','01|11','11|10','11|01','100|100|111','001|001|111','111|100|100','111|001|001','111|010','010|111','110|011','011|110'].map(s=>{const rows=s.split('|'),cells=[];rows.forEach((r,i)=>[...r].forEach((ch,j)=>{if(ch==='1')cells.push([i,j])}));return{cells,h:rows.length,w:rows[0].length}});
-const EASY=SHAPES.filter(s=>s.cells.length<=4);
-const THEMES=[{n:'Gemmes multicolores',c:['#ef4444','#f59e0b','#22c55e','#06b6d4','#6366f1','#d946ef','#ec4899'],cost:0},{n:'Bleu royal (uni)',c:Array(7).fill('#2563eb'),cost:0},{n:'Océan',c:['#1e3a8a','#1d4ed8','#2563eb','#0284c7','#0ea5e9','#38bdf8','#0369a1'],cost:100},{n:'Néon',c:['#f43f5e','#facc15','#4ade80','#22d3ee','#a78bfa','#f472b6','#fb923c'],cost:200}];
-let COLORS=THEMES[S.theme]?THEMES[S.theme].c:THEMES[0].c;
-const W=360,H=560,N=8,CS=40,BX=20,BY=80,TRAY_Y=440;
-const cv=$('c'),ctx=cv.getContext('2d');let SC=1,DPR=1;
-function resize(){const st=$('stage');DPR=window.devicePixelRatio||1;SC=Math.min(st.clientWidth/W,st.clientHeight/H);cv.style.width=W*SC+'px';cv.style.height=H*SC+'px';cv.width=W*SC*DPR;cv.height=H*SC*DPR}
-addEventListener('resize',resize);resize();
-let grid,pieces,score=0,state='menu',drag=null,bombMode=false,revived=false,shake=0,anim=null,snap=null;
-let parts=[],texts=[],flashes=[],gameCoins=0;
-const filled=()=>grid.reduce((a,r)=>a+r.filter(v=>v).length,0);
-function newPieces(){ const crowded=grid&&filled()>34; for(let t=0;t<14;t++){ pieces=[0,1,2].map(()=>{ const pool=(crowded&&Math.random()<.7)?EASY:SHAPES; const s=pool[Math.floor(Math.random()*pool.length)]; return{...s,color:Math.floor(Math.random()*COLORS.length)}; }); if(pieces.some(p=>canPlaceAnywhere(p))) break; } }
-function fits(p,r,c){return p.cells.every(([i,j])=>{const y=r+i,x=c+j;return y>=0&&y<N&&x>=0&&x<N&&!grid[y][x]})}
-function canPlaceAnywhere(p){for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(fits(p,r,c))return true;return false}
-function newGame(){ grid=Array.from({length:N},()=>Array(N).fill(0));score=0;gameCoins=0;revived=false;bombMode=false;anim=null;snap=null;parts=[];texts=[];flashes=[]; newPieces();state='play';S.games++;save(); ['menu','over'].forEach(i=>$(i).classList.remove('show'));ui(); }
-function burst(i,j,col){ const x=BX+j*CS+CS/2,y=BY+i*CS+CS/2; flashes.push({x,y,l:.35}); for(let k=0;k<7;k++){const a=Math.random()*6.28,s=80+Math.random()*180;parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-120,col,l:.7+Math.random()*.3,s:4+Math.random()*6})} }
-function say(txt,col='#fde047'){texts.push({txt,x:W/2,y:BY+N*CS/2,l:1.1,col})}
-function place(idx,r,c){ snap={grid:grid.map(x=>x.slice()),pieces:pieces.map(p=>p&&{...p}),score}; const p=pieces[idx]; p.cells.forEach(([i,j])=>grid[r+i][c+j]=p.color+1); score+=p.cells.length; pieces[idx]=null; if(pieces.every(q=>!q)) newPieces(); state='busy'; ui(); setTimeout(()=>resolve(0),80); }
-function resolve(chain){ const rows=[],cols=[]; for(let i=0;i<N;i++){if(grid[i].every(v=>v))rows.push(i);if(grid.every(row=>row[i]))cols.push(i)} const lines=rows.length+cols.length; if(!lines){finish();return} const set=new Set(); rows.forEach(i=>{for(let j=0;j<N;j++)set.add(i*N+j)});cols.forEach(j=>{for(let i=0;i<N;i++)set.add(i*N+j)}); set.forEach(k=>{const i=Math.floor(k/N),j=k%N;burst(i,j,COLORS[(grid[i][j]-1+7)%7]);grid[i][j]=0}); const pts=10*lines*(lines+chain); score+=pts; S.coins+=lines*2; gameCoins+=lines*2; shake=.25; if(chain>0) say('RÉACTION x'+(chain+1)+' 🔥','#fb923c'); else if(lines>1) say('x'+lines+' LIGNES ✨'); else say('+'+pts); setTimeout(()=>settle(chain+1),330); }
-function settle(chain){ const moves=[]; for(let c=0;c<N;c++){ let w=N-1; for(let r=N-1;r>=0;r--) if(grid[r][c]){ if(r!==w){grid[w][c]=grid[r][c];grid[r][c]=0;moves.push({c,from:r,to:w,col:grid[w][c]})} w--; } } if(moves.length){anim={t:0,dur:.38,moves,dest:new Set(moves.map(m=>m.to*N+m.c))};setTimeout(()=>resolve(chain),anim.dur*1000+90)} else resolve(chain); }
-function finish(){ if(grid.every(r=>r.every(v=>!v))&&snap){score+=100;S.coins+=10;gameCoins+=10;say('PARFAIT ! +100 🌟','#a7f3d0')} if(score>S.best)S.best=score; save(); state='play'; ui(); if(!pieces.some(p=>p&&canPlaceAnywhere(p))) setTimeout(gameOver,500); }
-function gameOver(){ if(state!=='play')return; state='over'; $('oScore').textContent=score;$('oBest').textContent=S.best; $('oC').textContent=gameCoins;$('doubleBtn').style.display=gameCoins>0?'block':'none'; $('reviveBtn').style.display=revived?'none':'block'; const showAd=S.games%2===0; $('overAd').style.display=(showAd&&!Ads.native)?'block':'none'; if(showAd){if(!Ads.native)Ads.loadWeb(document.querySelector('#overAd ins'));Ads.interstitial('game_over')} $('over').classList.add('show'); }
-function ui(){$('nBomb').textContent=S.bomb;$('nSwap').textContent=S.swap;$('nUndo').textContent=S.undo;$('bBomb').classList.toggle('on',bombMode); $('mBest').textContent=S.best;$('mCoins').textContent=S.coins; $('giftBtn').style.display=S.daily===today()?'none':'block'; const danger=grid&&state==='play'&&(filled()>44||S.bomb+S.swap+S.undo===0);$('bAd').classList.toggle('pulse',!!danger)}
-const pt=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H]};
-cv.addEventListener('pointerdown',e=>{ if(state!=='play')return; const[x,y]=pt(e); if(bombMode&&y>=BY&&y<BY+N*CS&&x>=BX&&x<BX+N*CS){ const c=Math.floor((x-BX)/CS),r=Math.floor((y-BY)/CS); for(let i=r-1;i<=r+1;i++)for(let j=c-1;j<=c+1;j++)if(i>=0&&i<N&&j>=0&&j<N&&grid[i][j]){burst(i,j,'#fde047');grid[i][j]=0} S.bomb--;bombMode=false;snap=null;shake=.3;save();state='busy';ui();setTimeout(()=>settle(0),300);return; } if(y>=TRAY_Y-10){const idx=Math.floor(x/120);if(pieces[idx]){drag={idx,x,y};cv.setPointerCapture(e.pointerId)}} });
-cv.addEventListener('pointermove',e=>{if(drag){[drag.x,drag.y]=pt(e)}});
-function dropPos(){ const p=pieces[drag.idx],px=drag.x-p.w*CS/2,py=drag.y-70-p.h*CS/2; return[Math.round((py-BY)/CS),Math.round((px-BX)/CS)]; }
-cv.addEventListener('pointerup',()=>{ if(!drag)return; const p=pieces[drag.idx];const[r,c]=dropPos(); const idx=drag.idx; drag=null; if(p&&state==='play'&&fits(p,r,c))place(idx,r,c); });
-$('bBomb').onclick=()=>{ if(state!=='play')return; if(bombMode){bombMode=false;ui();return} if(S.bomb<=0){if(S.coins>=30){S.coins-=30;S.bomb++;save();toast('Bombe achetée (30 💰)')}else return offer('Plus de bombe ! Regarde une pub pour en gagner une 💣','bomb',()=>{S.bomb++;save();ui();toast('+1 💣')})} bombMode=true;toast('Touche la grille pour exploser 3×3 💥');ui(); };
-$('bSwap').onclick=()=>{ if(state!=='play')return; if(S.swap<=0){if(S.coins>=20){S.coins-=20;S.swap++}else return offer('Plus de 🔄 ! Regarde une pub pour changer tes blocs','swap',()=>{S.swap++;save();ui();toast('+1 🔄')})} S.swap--;newPieces();save();ui(); };
-$('bUndo').onclick=()=>{ if(state!=='play')return; if(!snap)return toast('Rien à annuler'); if(S.undo<=0){if(S.coins>=25){S.coins-=25;S.undo++}else return offer('Plus d\'annulation ! Regarde une pub pour en gagner une ↩️','undo',()=>{S.undo++;save();ui();toast('+1 ↩️')})} S.undo--;grid=snap.grid;pieces=snap.pieces;score=snap.score;snap=null;save();ui(); };
-$('bAd').onclick=()=>Ads.rewarded('boosters',()=>{S.bomb++;S.swap++;S.undo++;save();ui();toast('+1 💣 +1 🔄 +1 ↩️ !')});
-$('playBtn').onclick=newGame;$('againBtn').onclick=newGame;
-function today(){return new Date().toISOString().slice(0,10)}
-$('giftBtn').onclick=()=>{ const y=new Date(Date.now()-864e5).toISOString().slice(0,10); S.streak=(S.daily===y)?S.streak+1:1; S.daily=today(); const g=20+Math.min(S.streak,7)*10; S.coins+=g; save(); ui(); toast('🎁 +'+g+' 💰 · série de '+S.streak+' jour(s)'); setTimeout(()=>offer('Doubler ton cadeau (+'+g+' 💰) en regardant une pub ?','gift_x2',()=>{S.coins+=g;save();ui();toast('Cadeau doublé ! +'+g+' 💰')}),700); };
-$('reviveBtn').onclick=()=>Ads.rewarded('revive',()=>{ const rc=[...Array(N).keys()].map(i=>[i,grid[i].filter(v=>v).length]).sort((a,b)=>b[1]-a[1]).slice(0,2); const cc=[...Array(N).keys()].map(j=>[j,grid.filter(r=>r[j]).length]).sort((a,b)=>b[1]-a[1]).slice(0,2); rc.forEach(([i])=>{for(let j=0;j<N;j++)if(grid[i][j]){burst(i,j,COLORS[grid[i][j]-1]);grid[i][j]=0}}); cc.forEach(([j])=>{for(let i=0;i<N;i++)if(grid[i][j]){burst(i,j,COLORS[grid[i][j]-1]);grid[i][j]=0}}); revived=true;snap=null;newPieces();$('over').classList.remove('show');state='busy';ui();setTimeout(()=>settle(0),300); });
-function offer(msg,name,onYes){ $('offerMsg').textContent=msg;$('offer').classList.add('show'); $('offerYes').onclick=()=>{$('offer').classList.remove('show');Ads.rewarded(name,onYes)}; $('offerNo').onclick=()=>$('offer').classList.remove('show'); }
-$('doubleBtn').onclick=()=>Ads.rewarded('double_coins',()=>{S.coins+=gameCoins;save();ui();$('doubleBtn').style.display='none';toast('Pièces doublées ! +'+gameCoins+' 💰')});
-function chestTick(){ const b=$('chestBtn'),left=S.chest-Date.now(); if(left<=0){b.textContent='📦 Coffre gratuit prêt !';b.classList.add('pulse')} else{const m=Math.floor(left/60000),s=Math.floor(left%60000/1000);b.textContent='📦 Coffre dans '+m+':'+String(s).padStart(2,'0');b.classList.remove('pulse')} }
-setInterval(chestTick,1000);chestTick();
-$('chestBtn').onclick=()=>{ if(S.chest>Date.now())return toast('Reviens bientôt, le coffre se recharge ⏳'); const g=30+Math.floor(Math.random()*31);S.coins+=g;S.chest=Date.now()+4*60000;save();ui();chestTick();toast('📦 +'+g+' 💰'); setTimeout(()=>offer('Doubler le contenu du coffre (+'+g+' 💰) avec une pub ?','chest_x2',()=>{S.coins+=g;save();ui();toast('Coffre doublé ! +'+g+' 💰')}),700); };
-function openThemes(){ const box=$('themeList');box.innerHTML=''; THEMES.forEach((t,i)=>{ const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-top:8px;text-align:left'; const sw=document.createElement('div');sw.style.cssText='display:flex;gap:3px;flex:1;align-items:center;font-size:14px'; sw.innerHTML='<span style="flex:1">'+t.n+'</span>'+t.c.slice(0,3).map(c=>'<i style="width:14px;height:14px;border-radius:4px;background:'+c+'"></i>').join(''); const b=document.createElement('button');b.className='b';b.style.cssText='width:105px;margin:0;padding:8px;font-size:14px'; const owned=S.owned.includes(i); b.textContent=S.theme===i?'✔ Actif':owned?'Choisir':(t.cost+' 💰');b.disabled=S.theme===i; b.onclick=()=>{ if(owned){S.theme=i;COLORS=t.c;save();openThemes();return} if(S.coins>=t.cost){S.coins-=t.cost;S.owned.push(i);S.theme=i;COLORS=t.c;save();ui();openThemes()} else offer('Pas assez de pièces. Regarde une pub pour débloquer « '+t.n+' » ?','theme',()=>{S.owned.push(i);S.theme=i;COLORS=t.c;save();openThemes()}); }; row.appendChild(sw);row.appendChild(b);box.appendChild(row); }); $('themes').classList.add('show'); }
-$('themeBtn').onclick=openThemes;$('themeClose').onclick=()=>$('themes').classList.remove('show');
-function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
-function gem(x,y,s,col,a=1){ ctx.globalAlpha=a;ctx.fillStyle=col;rr(x+1,y+1,s-2,s-2,7);ctx.fill(); ctx.fillStyle='#ffffff44';rr(x+4,y+4,s-8,(s-8)/2.2,5);ctx.fill();ctx.globalAlpha=1; }
-function draw(dt){ ctx.setTransform(SC*DPR,0,0,SC*DPR,0,0); const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1a2060');g.addColorStop(1,'#0b0f2e');ctx.fillStyle=g;ctx.fillRect(0,0,W,H); if(shake>0){shake-=dt;ctx.translate((Math.random()-.5)*7*Math.min(1,shake*4),(Math.random()-.5)*7*Math.min(1,shake*4))} ctx.textBaseline='middle';ctx.textAlign='center'; ctx.fillStyle='#fff';ctx.font='bold 34px system-ui';ctx.fillText(score||0,W/2,32); ctx.font='13px system-ui';ctx.fillStyle='#a5b4fc';ctx.fillText('🏆 '+S.best+'   💰 '+S.coins,W/2,60); if(!grid)return; if(anim){anim.t+=dt/anim.dur;if(anim.t>=1)anim=null} ctx.fillStyle='#232a70';rr(BX-5,BY-5,N*CS+10,N*CS+10,12);ctx.fill(); for(let i=0;i<N;i++)for(let j=0;j<N;j++){ const x=BX+j*CS,y=BY+i*CS; ctx.fillStyle='#2e378a';rr(x+2,y+2,CS-4,CS-4,6);ctx.fill(); if(grid[i][j]&&!(anim&&anim.dest.has(i*N+j)))gem(x,y,CS,COLORS[grid[i][j]-1]); } if(anim){const e=anim.t*anim.t;for(const m of anim.moves){const row=m.from+(m.to-m.from)*e;gem(BX+m.c*CS,BY+row*CS,CS,COLORS[m.col-1])}} if(drag&&pieces[drag.idx]){ const p=pieces[drag.idx];const[r,c]=dropPos(); if(fits(p,r,c)){ p.cells.forEach(([i,j])=>gem(BX+(c+j)*CS,BY+(r+i)*CS,CS,COLORS[p.color],.45)); const t=grid.map(x=>x.slice());p.cells.forEach(([i,j])=>t[r+i][c+j]=1); ctx.fillStyle='#ffffff55'; for(let i=0;i<N;i++){if(t[i].every(v=>v))for(let j=0;j<N;j++){rr(BX+j*CS+2,BY+i*CS+2,CS-4,CS-4,6);ctx.fill()}} for(let j=0;j<N;j++){if(t.every(row=>row[j]))for(let i=0;i<N;i++){rr(BX+j*CS+2,BY+i*CS+2,CS-4,CS-4,6);ctx.fill()}} } } for(let k=0;k<3;k++){ const p=pieces[k];if(!p||(drag&&drag.idx===k))continue; const s=26,ox=k*120+60-p.w*s/2,oy=TRAY_Y+50-p.h*s/2; p.cells.forEach(([i,j])=>gem(ox+j*s,oy+i*s,s,COLORS[p.color])); } if(drag&&pieces[drag.idx]){ const p=pieces[drag.idx],ox=drag.x-p.w*CS/2,oy=drag.y-70-p.h*CS/2; p.cells.forEach(([i,j])=>gem(ox+j*CS,oy+i*CS,CS,COLORS[p.color])); } for(const f of flashes){f.l-=dt;ctx.globalAlpha=Math.max(0,f.l*3);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(f.x,f.y,CS*.75*(1.4-f.l*2),0,6.28);ctx.fill();ctx.globalAlpha=1} flashes=flashes.filter(f=>f.l>0); for(const p of parts){p.l-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=700*dt;ctx.globalAlpha=Math.max(0,p.l*1.6);ctx.fillStyle=p.col;ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s);ctx.globalAlpha=1} parts=parts.filter(p=>p.l>0); for(const t of texts){t.l-=dt;ctx.globalAlpha=Math.min(1,t.l*2);ctx.fillStyle=t.col;ctx.font='bold 30px system-ui';ctx.strokeStyle='#000a';ctx.lineWidth=5; const y=t.y-(1.1-t.l)*50;ctx.strokeText(t.txt,t.x,y);ctx.fillText(t.txt,t.x,y);ctx.globalAlpha=1} texts=texts.filter(t=>t.l>0); }
-let last=performance.now();
-(function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;draw(dt);requestAnimationFrame(loop)})(performance.now());
-ui();
-</script>
-</body>
-</html>
+    <ol><li><b>1. Prends un bloc</b> parmi les 3 proposés en bas. Carrés, lignes, L, T, grandes barres.</li><li><b>2. Glisse-le sur la grille 8x8</b> et dépose-le où tu veux. Il doit rentrer entièrement.</li><li><b>3. Complète une ligne ou une colonne</b> pour la faire disparaître et gagner des points et des pièces.</li><li

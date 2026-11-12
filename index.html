@@ -5,65 +5,66 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Block Puzzle Gems - Jeu de puzzle de blocs gratuit en ligne</title>
 <meta name="description" content="Block Puzzle Gems : jeu de puzzle de blocs gratuit en ligne. Place les blocs, complète les lignes, déclenche des réactions en chaîne et bats ton record ! Joue sans téléchargement sur mobile et ordinateur.">
-<!-- PWA : Installable depuis le navigateur -->
 <meta name="theme-color" content="#0f1535">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Block Puzzle Gems">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a2060'/><text y='.9em' font-size='70' x='15'>💎</text></svg>">
-<link id="manifestLink" rel="manifest" href='data:application/manifest+json,{"name":"Block Puzzle Gems","short_name":"Block Puzzle","description":"Jeu de puzzle de blocs gratuit","start_url":".","display":"standalone","background_color":"%230f1535","theme_color":"%230f1535","icons":[{"src":"data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2720%27 fill=%27%231a2060%27/><text y=%27.9em%27 font-size=%2770%27 x=%2715%27>💎</text></svg>","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
+<link rel="icon" href="data:image/svg+xml,[STRIPPED]">
+<link rel="apple-touch-icon" href="data:image/svg+xml,[STRIPPED]">
+<link rel="manifest" href='data:application/manifest+json,[STRIPPED] Puzzle Gems","short_name":"Block Puzzle","description":"Jeu de puzzle de blocs gratuit","start_url":".","display":"standalone","background_color":"%230f1535","theme_color":"%230f1535","icons":[{"src":"data:image/svg+xml,[STRIPPED]","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"}]}'>
 <script async data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 <script>window.adsbygoogle=window.adsbygoogle||[];window.adBreak=window.adConfig=function(o){adsbygoogle.push(o)};adConfig({preloadAdBreaks:'on',sound:'on'});</script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;height:100dvh;margin:0;overflow:hidden;overscroll-behavior:none}
-body{background:#0f1535;font-family:system-ui,Arial,sans-serif;color:#fff;line-height:1.3;display:flex;flex-direction:column}
+body{background:#0f1535;font-family:system-ui,Arial,sans-serif;color:#fff;line-height:1.25;display:flex;flex-direction:column}
 a{color:#a5b4fc}
-header{flex:0 0 auto;padding:7px 10px;display:flex;justify-content:space-between;align-items:center;gap:6px}
-header .logo{font-weight:900;font-size:16px;white-space:nowrap}
-header nav{display:flex;gap:6px;align-items:center}
-header nav a{ text-decoration:none;font-weight:700;font-size:12px;padding:6px 8px;background:#232a70;border-radius:10px}
+header{flex:0 0 auto;padding:6px 8px 2px;display:flex;justify-content:space-between;align-items:center;gap:6px;max-width:900px;width:100%;margin:0 auto}
+header .logo{font-weight:900;font-size:15px;white-space:nowrap}
+header nav{display:flex;gap:5px;align-items:center}
+header nav a{text-decoration:none;font-weight:700;font-size:11px;padding:6px 7px;background:#232a70;border-radius:9px}
 #installBtn{background:#16a34a !important;color:#fff}
-.hero{flex:0 0 auto;padding:0 10px;text-align:center}
-.hero h1{font-size:15px;line-height:1.1;margin:1px 0;color:#a5b4fc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hero p{opacity:.85;margin:1px auto;font-size:11px;max-width:720px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* JEU AGRANDI - prend tout l'espace restant */
-#gameWrap{flex:1 1 auto;min-height:0;max-width:520px;width:calc(100% - 16px);margin:5px auto;background:#1a2060;border:2px solid #4c56a8;border-radius:18px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.hero{flex:0 0 auto;padding:0 8px;text-align:center;max-width:900px;width:100%;margin:0 auto}
+.hero h1{font-size:13px;line-height:1.1;margin:1px 0;color:#a5b4fc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero p{opacity:.8;margin:0;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* LARGEUR ADAPTABLE : 100% sur mobile, plus grand sur tablette / PC */
+#gameWrap{flex:1 1 auto;min-height:0;width:calc(100% - 8px);max-width:620px;margin:4px auto 0;background:#1a2060;border:1px solid #4c56a8;border-radius:14px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+@media(min-width:700px){ #gameWrap{max-width:680px} header,.hero{max-width:680px} .tabs,.tab-content{max-width:680px} }
+@media(min-width:1000px){ #gameWrap{max-width:720px} header,.hero{max-width:720px} .tabs,.tab-content{max-width:720px} .hero h1{font-size:18px} .hero p{font-size:13px} }
+@media(min-width:1400px){ #gameWrap{max-width:760px} }
 #app{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
-#stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-canvas{display:block;touch-action:none}
-#tools{display:flex;gap:6px;padding:6px 8px;flex:0 0 auto}
-#tools button{flex:1;font-size:13px;font-weight:800;border:0;border-radius:12px;padding:10px 2px;color:#fff;background:#4f46e5;box-shadow:0 3px 0 #312e81;touch-action:manipulation;cursor:pointer}
+#stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;width:100%}
+canvas{display:block;touch-action:none;width:100%;height:auto}
+#tools{display:flex;gap:6px;padding:5px 6px;flex:0 0 auto}
+#tools button{flex:1;font-size:13px;font-weight:800;border:0;border-radius:11px;padding:10px 2px;color:#fff;background:#4f46e5;box-shadow:0 3px 0 #312e81;touch-action:manipulation;cursor:pointer}
 #tools button.on{background:#f59e0b;box-shadow:0 3px 0 #a86a00}
 #tools button.ad{background:#16a34a;box-shadow:0 3px 0 #0e6b30}
 .adbox{flex:0 0 auto;min-height:50px;text-align:center;overflow:hidden;background:#0b0f2e}
 body.native .adbox{display:none}
-.modal{position:absolute;inset:0;background:rgba(8,10,30,.95);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}
+.modal{position:absolute;inset:0;background:rgba(8,10,30,.95);display:none;align-items:center;justify-content:center;z-index:100;padding:10px}
 .modal.show{display:flex}
 .page-modal{position:fixed;z-index:2000}
-.card{background:#1c2250;border:2px solid #4c56a8;border-radius:18px;padding:14px;width:100%;max-width:340px;text-align:center;max-height:100%;overflow:auto}
-.card h1{margin:0;font-size:26px;line-height:1.1;color:#a5b4fc}
-.card h2{margin:0 0 6px}.card p{margin:6px 0;opacity:.9;font-size:14px}
-button.b{width:100%;font-size:15px;font-weight:800;border:0;border-radius:12px;padding:10px;margin-top:6px;color:#fff;background:#4f46e5;box-shadow:0 3px 0 #312e81;cursor:pointer}
+.card{background:#1c2250;border:2px solid #4c56a8;border-radius:16px;padding:13px;width:100%;max-width:340px;text-align:center;max-height:100%;overflow:auto}
+.card h1{margin:0;font-size:25px;line-height:1.1;color:#a5b4fc}
+.card h2{margin:0 0 5px}.card p{margin:5px 0;opacity:.9;font-size:13.5px}
+button.b{width:100%;font-size:15px;font-weight:800;border:0;border-radius:11px;padding:10px;margin-top:6px;color:#fff;background:#4f46e5;box-shadow:0 3px 0 #312e81;cursor:pointer}
 button.b.g{background:#16a34a;box-shadow:0 3px 0 #0e6b30}button.b.o{background:#f59e0b;box-shadow:0 3px 0 #a86a00}
 #toast{position:fixed;left:50%;top:50px;transform:translateX(-50%);background:#000c;padding:8px 14px;border-radius:999px;opacity:0;transition:.3s;z-index:3000;pointer-events:none;font-size:13px}
 #toast.show{opacity:1}
 @keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}.pulse{animation:pu 1s infinite}
-.tabs{flex:0 0 auto;max-width:520px;width:100%;margin:5px auto 0;padding:0 8px;display:flex;gap:6px}
-.tabs button{flex:1;border:0;border-radius:10px;padding:9px 2px;font-weight:800;font-size:12px;background:#232a70;color:#fff;cursor:pointer;touch-action:manipulation}
+.tabs{flex:0 0 auto;width:calc(100% - 8px);max-width:620px;margin:4px auto 0;padding:0;display:flex;gap:5px}
+.tabs button{flex:1;border:0;border-radius:9px;padding:8px 2px;font-weight:800;font-size:11.5px;background:#232a70;color:#fff;cursor:pointer;touch-action:manipulation}
 .tabs button.active{background:#4f46e5}
-.tab-content{flex:0 0 auto;max-width:520px;width:100%;margin:0 auto;padding:3px 10px 4px;max-height:72px;overflow:hidden}
-.tab-panel{display:none;font-size:11.5px;line-height:1.35}
+.tab-content{flex:0 0 auto;width:calc(100% - 8px);max-width:620px;margin:0 auto;padding:3px 8px 2px;max-height:64px;overflow:hidden}
+.tab-panel{display:none;font-size:11px;line-height:1.3}
 .tab-panel.active{display:block}
-.tab-panel h2{color:#a5b4fc;margin:1px 0;font-size:13px}
-.tab-panel h3{margin:3px 0 1px;font-size:12px}
-.tab-panel p,.tab-panel li{margin:1px 0;font-size:11.5px}
-.tab-panel ol{margin:1px 0;padding-left:15px}
-footer{flex:0 0 auto;padding:3px 10px 6px;text-align:center;font-size:11px;opacity:.8}
-footer a{margin:0 6px}
-#cookieBar{position:fixed;left:10px;right:10px;bottom:10px;background:#1c2250;border:2px solid #4c56a8;border-radius:14px;padding:12px;text-align:center;z-index:5000;display:none;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.tab-panel h2{color:#a5b4fc;margin:1px 0;font-size:12.5px}
+.tab-panel p,.tab-panel li{margin:1px 0;font-size:11px}
+.tab-panel ol{margin:1px 0;padding-left:14px}
+footer{flex:0 0 auto;padding:2px 8px 5px;text-align:center;font-size:10.5px;opacity:.8}
+footer a{margin:0 5px}
+#cookieBar{position:fixed;left:8px;right:8px;bottom:8px;background:#1c2250;border:2px solid #4c56a8;border-radius:12px;padding:11px;text-align:center;z-index:5000;display:none;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 #cookieBar button{display:block;width:100%;background:#16a34a;color:#fff;border:0;padding:10px;border-radius:10px;font-weight:800;margin-top:8px;font-size:15px;cursor:pointer}
 .page-modal .card{max-width:600px;text-align:left;max-height:85vh;overflow:auto}
 a[href*="netlify"],iframe[title*="Netlify"]{display:none!important}
@@ -97,7 +98,7 @@ a[href*="netlify"],iframe[title*="Netlify"]{display:none!important}
   </div>
   <div class="tab-panel" id="tab-faq">
     <h2>FAQ</h2>
-    <p><b>Gratuit ?</b> Oui, 100%. <b>Téléchargement ?</b> Oui, bouton 📥 Installer en haut, ou direct sur navigateur. <b>Hors ligne ?</b> Oui après installation. <b>Pièces ?</b> Lignes + coffre + cadeau du jour + pubs. <b>Enfants ?</b> Oui, jeu familial.</p>
+    <p><b>Gratuit ?</b> Oui, 100%. <b>Téléchargement ?</b> Oui, bouton 📥 Installer en haut, ou direct sur navigateur. <b>Hors ligne ?</b> Oui pour jouer, mais les bonus et pubs demandent Internet pour gagner. <b>Pièces ?</b> Lignes + coffre + cadeau du jour + pubs. <b>Enfants ?</b> Oui, jeu familial.</p>
   </div>
 </div>
 <footer><p>© 2026 MdigistarX - <a href="#" onclick="openPage('privacy');return false">Confidentialité</a> | <a href="#" onclick="openPage('contact');return false">Contact</a> | <a href="#" onclick="openPage('about');return false">À propos</a></p></footer>
@@ -106,7 +107,6 @@ a[href*="netlify"],iframe[title*="Netlify"]{display:none!important}
 <div class="modal page-modal" id="page-about"><div class="card"><h2>À propos de MdigistarX</h2><p>MdigistarX crée des jeux web simples et accessibles. Objectif : des jeux gratuits, légers et amusants pour tous, en Afrique et dans le monde. Block Puzzle Gems est notre premier jeu.</p><p>Site : puzzle.mdigistarx.tech - Email : contact@mdigistarx.tech</p><button class="b" onclick="closePage()">Fermer</button></div></div>
 <div id="cookieBar">Ce site utilise des cookies pour améliorer ton expérience et afficher des publicités. <button onclick="acceptCookies()">J'accepte</button></div>
 <script>
-// --- PWA : Installable depuis le navigateur ---
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='inline-block'});
 window.addEventListener('appinstalled',()=>{deferredPrompt=null;document.getElementById('installBtn').textContent='✅ Installé'});
@@ -127,7 +127,7 @@ const INTERSTITIAL_COOLDOWN = 120000;
 const ADMOB = { banner:'ca-app-pub-3940256099942544/6300978111', inter :'ca-app-pub-3940256099942544/1033173712', reward:'ca-app-pub-3940256099942544/5224354917' };
 const $=id=>document.getElementById(id);
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1900)}
-const Ads = {native: !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()),_got:false,_cb:null,loaded:new Set(),lastInter:0,loadWeb(el){ if(!el||this.loaded.has(el))return; this.loaded.add(el); try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){} },async init(){ if(!this.native){ this.loadWeb(document.querySelector('#adBottom ins')); return; } document.body.classList.add('native'); try{ const A=Capacitor.Plugins.AdMob; await A.initialize({}); A.addListener('onRewardedVideoAdReward',()=>{this._got=true}); A.addListener('onRewardedVideoAdDismissed',()=>{ if(this._got&&this._cb)this._cb(); else toast('Regarde la pub en entier pour la récompense'); this._got=false; this._cb=null }); A.showBanner({adId:ADMOB.banner,adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0}); }catch(e){} },rewarded(name,onReward){ if(DEMO_MODE){ $('fakeAd').classList.add('show'); let t=3; $('fakeT').textContent=t; const iv=setInterval(()=>{t--;$('fakeT').textContent=t;if(t<=0){clearInterval(iv);$('fakeAd').classList.remove('show');onReward()}},1000); return; } if(this.native){ const A=Capacitor.Plugins.AdMob; this._got=false; this._cb=onReward; A.prepareRewardVideoAd({adId:ADMOB.reward}).then(()=>A.showRewardVideoAd()).catch(()=>toast('Pub indisponible, réessaie plus tard')); return; } let ok=false; adBreak({type:'reward',name:name,beforeReward:s=>s(),adViewed:()=>{ok=true},adDismissed:()=>toast('Regarde la pub en entier pour la récompense'), adBreakDone:i=>{ if(ok) onReward(); else if(i.breakStatus!=='dismissed') toast('Aucune pub disponible, réessaie plus tard') }}); },interstitial(name){ if(DEMO_MODE||Date.now()-this.lastInter<INTERSTITIAL_COOLDOWN) return; this.lastInter=Date.now(); if(this.native){ const A=Capacitor.Plugins.AdMob; A.prepareInterstitial({adId:ADMOB.inter}).then(()=>A.showInterstitial()).catch(()=>{}); } else adBreak({type:'next',name:name}); }};
+const Ads = {native: !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()),_got:false,_cb:null,loaded:new Set(),lastInter:0,loadWeb(el){ if(!el||this.loaded.has(el))return; this.loaded.add(el); try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){} },async init(){ if(!this.native){ this.loadWeb(document.querySelector('#adBottom ins')); return; } document.body.classList.add('native'); try{ const A=Capacitor.Plugins.AdMob; await A.initialize({}); A.addListener('onRewardedVideoAdReward',()=>{this._got=true}); A.addListener('onRewardedVideoAdDismissed',()=>{ if(this._got&&this._cb)this._cb(); else toast('Regarde la pub en entier pour la récompense'); this._got=false; this._cb=null }); A.showBanner({adId:ADMOB.banner,adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0}); }catch(e){} },rewarded(name,onReward){ if(!navigator.onLine){toast('Connecte-toi à Internet pour gagner ce bonus 📶');return} if(DEMO_MODE){ $('fakeAd').classList.add('show'); let t=3; $('fakeT').textContent=t; const iv=setInterval(()=>{t--;$('fakeT').textContent=t;if(t<=0){clearInterval(iv);$('fakeAd').classList.remove('show');onReward()}},1000); return; } if(this.native){ const A=Capacitor.Plugins.AdMob; this._got=false; this._cb=onReward; A.prepareRewardVideoAd({adId:ADMOB.reward}).then(()=>A.showRewardVideoAd()).catch(()=>toast('Pub indisponible, réessaie plus tard')); return; } let ok=false; adBreak({type:'reward',name:name,beforeReward:s=>s(),adViewed:()=>{ok=true},adDismissed:()=>toast('Regarde la pub en entier pour la récompense'), adBreakDone:i=>{ if(ok) onReward(); else if(i.breakStatus!=='dismissed') toast('Aucune pub disponible, réessaie plus tard') }}); },interstitial(name){ if(DEMO_MODE||Date.now()-this.lastInter<INTERSTITIAL_COOLDOWN) return; this.lastInter=Date.now(); if(this.native){ const A=Capacitor.Plugins.AdMob; A.prepareInterstitial({adId:ADMOB.inter}).then(()=>A.showInterstitial()).catch(()=>{}); } else adBreak({type:'next',name:name}); }};
 Ads.init();
 let S=(()=>{try{return JSON.parse(localStorage.getItem('blockPuzzleGems'))}catch(e){return null}})()||{best:0,coins:0,bomb:1,swap:1,undo:1,games:0,daily:'',streak:0};
 const save=()=>{try{localStorage.setItem('blockPuzzleGems',JSON.stringify(S))}catch(e){}};
@@ -136,10 +136,20 @@ const SHAPES=['1','11','111','1111','11111','1|1','1|1|1','1|1|1|1','1|1|1|1|1',
 const EASY=SHAPES.filter(s=>s.cells.length<=4);
 const THEMES=[{n:'Gemmes multicolores',c:['#ef4444','#f59e0b','#22c55e','#06b6d4','#6366f1','#d946ef','#ec4899'],cost:0},{n:'Bleu royal (uni)',c:Array(7).fill('#2563eb'),cost:0},{n:'Océan',c:['#1e3a8a','#1d4ed8','#2563eb','#0284c7','#0ea5e9','#38bdf8','#0369a1'],cost:100},{n:'Néon',c:['#f43f5e','#facc15','#4ade80','#22d3ee','#a78bfa','#f472b6','#fb923c'],cost:200}];
 let COLORS=THEMES[S.theme]?THEMES[S.theme].c:THEMES[0].c;
-const W=360,H=560,N=8,CS=40,BX=20,BY=80,TRAY_Y=440;
+const W=360,H=500,N=8,CS=40,BX=20,BY=60,TRAY_Y=380;
 const cv=$('c'),ctx=cv.getContext('2d');let SC=1,DPR=1;
-function resize(){const st=$('stage');DPR=window.devicePixelRatio||1;SC=Math.min(st.clientWidth/W,st.clientHeight/H);cv.style.width=W*SC+'px';cv.style.height=H*SC+'px';cv.width=W*SC*DPR;cv.height=H*SC*DPR}
-addEventListener('resize',resize);resize();
+function resize(){
+  const st=$('stage');DPR=window.devicePixelRatio||1;
+  // ADAPTABLE : le jeu prend toute la largeur dispo, puis toute la hauteur dispo
+  const availW=st.clientWidth, availH=st.clientHeight;
+  SC=Math.min(availW/W, availH/H);
+  // Sur très grand écran, on ne dépasse pas 1.9x pour ne pas déformer
+  SC=Math.min(SC, 1.9);
+  cv.style.width=(W*SC)+'px';cv.style.height=(H*SC)+'px';cv.width=W*SC*DPR;cv.height=H*SC*DPR;
+}
+addEventListener('resize',resize);
+new ResizeObserver(resize).observe(document.getElementById('stage'));
+resize();
 let grid,pieces,score=0,state='menu',drag=null,bombMode=false,revived=false,shake=0,anim=null,snap=null;
 let parts=[],texts=[],flashes=[],gameCoins=0;
 const filled=()=>grid.reduce((a,r)=>a+r.filter(v=>v).length,0);
@@ -177,7 +187,7 @@ function openThemes(){ const box=$('themeList');box.innerHTML=''; THEMES.forEach
 $('themeBtn').onclick=openThemes;$('themeClose').onclick=()=>$('themes').classList.remove('show');
 function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 function gem(x,y,s,col,a=1){ ctx.globalAlpha=a;ctx.fillStyle=col;rr(x+1,y+1,s-2,s-2,7);ctx.fill(); ctx.fillStyle='#ffffff44';rr(x+4,y+4,s-8,(s-8)/2.2,5);ctx.fill();ctx.globalAlpha=1; }
-function draw(dt){ ctx.setTransform(SC*DPR,0,0,SC*DPR,0,0); const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1a2060');g.addColorStop(1,'#0b0f2e');ctx.fillStyle=g;ctx.fillRect(0,0,W,H); if(shake>0){shake-=dt;ctx.translate((Math.random()-.5)*7*Math.min(1,shake*4),(Math.random()-.5)*7*Math.min(1,shake*4))} ctx.textBaseline='middle';ctx.textAlign='center'; ctx.fillStyle='#fff';ctx.font='bold 34px system-ui';ctx.fillText(score||0,W/2,32); ctx.font='13px system-ui';ctx.fillStyle='#a5b4fc';ctx.fillText('🏆 '+S.best+'   💰 '+S.coins,W/2,60); if(!grid)return; if(anim){anim.t+=dt/anim.dur;if(anim.t>=1)anim=null} ctx.fillStyle='#232a70';rr(BX-5,BY-5,N*CS+10,N*CS+10,12);ctx.fill(); for(let i=0;i<N;i++)for(let j=0;j<N;j++){ const x=BX+j*CS,y=BY+i*CS; ctx.fillStyle='#2e378a';rr(x+2,y+2,CS-4,CS-4,6);ctx.fill(); if(grid[i][j]&&!(anim&&anim.dest.has(i*N+j)))gem(x,y,CS,COLORS[grid[i][j]-1]); } if(anim){const e=anim.t*anim.t;for(const m of anim.moves){const row=m.from+(m.to-m.from)*e;gem(BX+m.c*CS,BY+row*CS,CS,COLORS[m.col-1])}} if(drag&&pieces[drag.idx]){ const p=pieces[drag.idx];const[r,c]=dropPos(); if(fits(p,r,c)){ p.cells.forEach(([i,j])=>gem(BX+(c+j)*CS,BY+(r+i)*CS,CS,COLORS[p.color],.45)); const t=grid.map(x=>x.slice());p.cells.forEach(([i,j])=>t[r+i][c+j]=1); ctx.fillStyle='#ffffff55'; for(let i=0;i<N;i++){if(t[i].every(v=>v))for(let j=0;j<N;j++){rr(BX+j*CS+2,BY+i*CS+2,CS-4,CS-4,6);ctx.fill()}} for(let j=0;j<N;j++){if(t.every(row=>row[j]))for(let i=0;i<N;i++){rr(BX+j*CS+2,BY+i*CS+2,CS-4,CS-4,6);ctx.fill()}} } } for(let k=0;k<3;k++){ const p=pieces[k];if(!p||(drag&&drag.idx===k))continue; const s=26,ox=k*120+60-p.w*s/2,oy=TRAY_Y+50-p.h*s/2; p.cells.forEach(([i,j])=>gem(ox+j*s,oy+i*s,s,COLORS[p.color])); } if(drag&&pieces[drag.idx]){ const p=pieces[drag.idx],ox=drag.x-p.w*CS/2,oy=drag.y-70-p.h*CS/2; p.cells.forEach(([i,j])=>gem(ox+j*CS,oy+i*CS,CS,COLORS[p.color])); } for(const f of flashes){f.l-=dt;ctx.globalAlpha=Math.max(0,f.l*3);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(f.x,f.y,CS*.75*(1.4-f.l*2),0,6.28);ctx.fill();ctx.globalAlpha=1} flashes=flashes.filter(f=>f.l>0); for(const p of parts){p.l-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=700*dt;ctx.globalAlpha=Math.max(0,p.l*1.6);ctx.fillStyle=p.col;ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s);ctx.globalAlpha=1} parts=parts.filter(p=>p.l>0); for(const t of texts){t.l-=dt;ctx.globalAlpha=Math.min(1,t.l*2);ctx.fillStyle=t.col;ctx.font='bold 30px system-ui';ctx.strokeStyle='#000a';ctx.lineWidth=5; const y=t.y-(1.1-t.l)*50;ctx.strokeText(t.txt,t.x,y);ctx.fillText(t.txt,t.x,y);ctx.globalAlpha=1} texts=texts.filter(t=>t.l>0); }
+function draw(dt){ ctx.setTransform(SC*DPR,0,0,SC*DPR,0,0); const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1a2060');g.addColorStop(1,'#0b0f2e');ctx.fillStyle=g;ctx.fillRect(0,0,W,H); if(shake>0){shake-=dt;ctx.translate((Math.random()-.5)*7*Math.min(1,shake*4),(Math.random()-.5)*7*Math.min(1,shake*4))} ctx.textBaseline='middle';ctx.textAlign='center'; ctx.fillStyle='#fff';ctx.font='bold 32px system-ui';ctx.fillText(score||0,W/2,28); ctx.font='12px system-ui';ctx.fillStyle='#a5b4fc';ctx.fillText('🏆 '+S.best+'   💰 '+S.coins,W/2,50); if(!grid)return; if(anim){anim.t+=dt/anim.dur;if(anim.t>=1)anim=null} ctx.fillStyle='#232a70';rr(BX-5,BY-5,N*CS+10,N*CS+10,12);ctx.fill(); for(let i=0;i<N;i++)for(let j=0;j<N;j++){ const x=BX+j*CS,y=BY+i*CS; ctx.fillStyle='#2e378a';rr(x+2,y+2,CS-4,CS-4,6);ctx.fill(); if(grid[i][j]&&!(anim&&anim.dest.has(i*N+j)))gem(x,y,CS,COLORS[grid[i][j]-1]); } if(anim){const e=anim.t*anim.t;for(const m of anim.moves){const row=m.from+(m.to-m.from)*e;gem(BX+m.c*CS,BY+row*CS,CS,COLORS[m.col-1])}} if(drag&&pieces[drag.idx]){ const p=pieces[drag.idx];const[r,c]=dropPos(); if(fits(p,r,c)){ p.cells.forEach(([i,j])=>gem(BX+(c+j)*CS,BY+(r+i)*CS,CS,COLORS[p.color],.45)); const t=grid.map(x=>x.slice());p.cells.forEach(([i,j])=>t[r+i][c+j]=1); ctx.fillStyle='#ffffff55'; for(let i=0;i<N;i++){if(t[i].every(v=>v))for(let j=0;j<N;j++){rr(BX+j*CS+2,BY+i*CS+2,CS-4,CS-4,6);ctx.fill()}} for(let j=0;j<N;j++){if(t.every(row=>row[j]))for(let i=0;i<N;i++){rr(BX+j*CS+2,BY+i*CS+2,CS-4,CS-4,6);ctx.fill()}} } } for(let k=0;k<3;k++){ const p=pieces[k];if(!p||(drag&&drag.idx===k))continue; const s=26,ox=k*120+60-p.w*s/2,oy=TRAY_Y+50-p.h*s/2; p.cells.forEach(([i,j])=>gem(ox+j*s,oy+i*s,s,COLORS[p.color])); } if(drag&&pieces[drag.idx]){ const p=pieces[drag.idx],ox=drag.x-p.w*CS/2,oy=drag.y-70-p.h*CS/2; p.cells.forEach(([i,j])=>gem(ox+j*CS,oy+i*CS,CS,COLORS[p.color])); } for(const f of flashes){f.l-=dt;ctx.globalAlpha=Math.max(0,f.l*3);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(f.x,f.y,CS*.75*(1.4-f.l*2),0,6.28);ctx.fill();ctx.globalAlpha=1} flashes=flashes.filter(f=>f.l>0); for(const p of parts){p.l-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=700*dt;ctx.globalAlpha=Math.max(0,p.l*1.6);ctx.fillStyle=p.col;ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s);ctx.globalAlpha=1} parts=parts.filter(p=>p.l>0); for(const t of texts){t.l-=dt;ctx.globalAlpha=Math.min(1,t.l*2);ctx.fillStyle=t.col;ctx.font='bold 30px system-ui';ctx.strokeStyle='#000a';ctx.lineWidth=5; const y=t.y-(1.1-t.l)*50;ctx.strokeText(t.txt,t.x,y);ctx.fillText(t.txt,t.x,y);ctx.globalAlpha=1} texts=texts.filter(t=>t.l>0); }
 let last=performance.now();
 (function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;draw(dt);requestAnimationFrame(loop)})(performance.now());
 ui();

@@ -83,16 +83,18 @@ body.playing #tools{padding:6px}
 .lvlBtn small{font-weight:600;opacity:.9;font-size:11px}
 .lvlBtn.sel{outline:2px solid #fff;box-shadow:0 0 0 2px #4f46e5}
 .lvlBtn.locked{opacity:.55;cursor:not-allowed}
-/* ===== MINI PARAMÈTRES PRO ===== */
 .setRow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#232a70;border-radius:12px;padding:10px 12px;margin-top:8px;text-align:left}
 .setRow b{font-size:14px}.setRow small{opacity:.75;font-size:11px;display:block}
-.switch{position:relative;width:52px;height:30px;flex:0 0 auto;border:0;background:#0f1535;border-radius:999px;cursor:pointer;padding:0;transition:.2s}
+.switch{position:relative;width:52px;height:30px;flex:0 0 auto;border:0;background:#555;border-radius:999px;cursor:pointer;padding:0;transition:.2s}
 .switch::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;background:#fff;border-radius:50%;transition:.2s}
 .switch.on{background:#16a34a}.switch.on::after{left:25px}
 .setRow .vol{width:100%;accent-color:#16a34a}
+.setVal{font-weight:800;font-size:12px;min-width:38px;text-align:right}
 </style>
 </head>
 <body>
+<!-- Si tu as ton fichier MP3, mets-le à côté de index.html avec le nom bring-me-back.mp3, il sera joué automatiquement -->
+<audio id="bgFile" loop preload="none" src="bring-me-back.mp3"></audio>
 <header><div class="logo">💎 Block Puzzle Gems</div><nav><a href="#" onclick="showTab('how',document.querySelector('.tabs button'));return false">Aide</a><a href="#" onclick="openPage('contact');return false">Contact</a><a href="#" id="installBtn" onclick="installApp();return false">📥 Installer</a></nav></header>
 <div class="hero"><h1>Block Puzzle Gems - Jeu de puzzle gratuit</h1><p>Glisse les blocs, complète les lignes, déclenche des réactions en chaîne. 100% gratuit.</p></div>
 <div id="gameWrap"><div id="app">
@@ -103,13 +105,13 @@ body.playing #tools{padding:6px}
 <button class="b g" id="playBtn">▶ JOUER - <span id="playLevelName">Facile</span></button><button class="b o" id="giftBtn">🎁 Cadeau du jour</button><button class="b o" id="chestBtn">📦 Coffre gratuit</button><button class="b" id="themeBtn">🎨 Thèmes de blocs</button><button class="b" onclick="openSettings()">⚙️ Paramètres - Son / Musique / Vibration</button><button class="b" onclick="installApp()">📥 Installer l'appli</button></div></div>
 <div class="modal" id="over"><div class="card"><h2>Plus de place ! 😮</h2><p id="overLevel">Niveau : Facile</p><p>Score : <b id="oScore">0</b> &nbsp; 🏆 <b id="oBest">0</b></p><div id="overAd" style="display:none;margin:8px 0"><ins class="adsbygoogle" style="display:inline-block;width:300px;height:100px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222"></ins></div><button class="b o" id="reviveBtn">🎬 Continuer (regarder une pub)</button><button class="b o" id="doubleBtn">🎬 Doubler mes pièces (+<span id="oC">0</span> 💰)</button><button class="b g" id="againBtn">🔄 Rejouer</button></div></div>
 <div class="modal" id="themes"><div class="card"><h2>🎨 Thèmes de blocs</h2><div id="themeList"></div><button class="b" id="themeClose">Retour</button></div></div>
-<!-- MINI PARAMÈTRES -->
 <div class="modal" id="settings" style="z-index:250"><div class="card"><h2>⚙️ Paramètres</h2><p style="font-size:12px;opacity:.8">Choisis ce que tu veux entendre et sentir. C'est sauvegardé.</p>
-<div class="setRow"><div><b>🎵 Musique de fond</b><small>Musique douce qui tourne en boucle</small></div><button class="switch" id="swMusic" onclick="toggleSetting('music')"></button></div>
-<div class="setRow"><div style="flex:1"><b>🔊 Volume musique</b><small>Plus fort ou plus doux</small><input class="vol" type="range" id="volMusic" min="0" max="100" value="35" oninput="setVolume('music',this.value)"></div></div>
+<div class="setRow"><div><b>🎵 Musique de fond</b><small>Style nostalgique, comme Bring Me Back</small></div><button class="switch" id="swMusic" onclick="toggleSetting('music')"></button></div>
+<div class="setRow"><div style="flex:1"><b>🔊 Volume musique</b><small>Plus fort ou plus doux</small><input class="vol" type="range" id="volMusic" min="0" max="100" value="35" oninput="setVolume('volMusic',this.value)"></div><span class="setVal" id="volMusicVal">35%</span></div>
 <div class="setRow"><div><b>🔔 Effets sonores</b><small>Clic, ligne, explosion</small></div><button class="switch" id="swSound" onclick="toggleSetting('sound')"></button></div>
-<div class="setRow"><div style="flex:1"><b>🔔 Volume effets</b><input class="vol" type="range" id="volSound" min="0" max="100" value="70" oninput="setVolume('sound',this.value)"></div></div>
+<div class="setRow"><div style="flex:1"><b>🔔 Volume effets</b><input class="vol" type="range" id="volSound" min="0" max="100" value="70" oninput="setVolume('volSound',this.value)"></div><span class="setVal" id="volSoundVal">70%</span></div>
 <div class="setRow"><div><b>📳 Vibration</b><small>Petite vibration quand tu joues</small></div><button class="switch" id="swVibrate" onclick="toggleSetting('vibrate')"></button></div>
+<div class="setRow"><div><b>📳 Test vibration</b><small>Vérifie si ton téléphone vibre</small></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testVibrate()">📳 Tester</button></div>
 <div class="setRow"><div><b>🎵 Test musique</b><small>Écoute la musique 5 secondes</small></div><button class="b" style="width:90px;margin:0;padding:8px" onclick="testMusic()">▶ Tester</button></div>
 <button class="b g" onclick="closeSettings()">✅ OK, c'est bon</button>
 </div></div>
@@ -144,6 +146,17 @@ body.playing #tools{padding:6px}
 <div class="modal page-modal" id="page-about"><div class="card"><h2>À propos de MdigistarX</h2><p>MdigistarX crée des jeux web simples et accessibles. Objectif : des jeux gratuits, légers et amusants pour tous, en Afrique et dans le monde. Block Puzzle Gems est notre premier jeu.</p><p>Site : puzzle.mdigistarx.tech - Email : contact@mdigistarx.tech</p><button class="b" onclick="closePage()">Fermer</button></div></div>
 <div id="cookieBar">Ce site utilise des cookies pour améliorer ton expérience et afficher des publicités. <button onclick="acceptCookies()">J'accepte</button></div>
 <script>
+// ===== CORRECTION BUG : S EST DÉFINI TOUT EN HAUT, AVANT TOUT LE RESTE =====
+const $=id=>document.getElementById(id);
+let S=(()=>{try{return JSON.parse(localStorage.getItem('blockPuzzleGems'))}catch(e){return null}})()||{best:0,coins:0,bomb:1,swap:1,undo:1,games:0,daily:'',streak:0};
+const save=()=>{try{localStorage.setItem('blockPuzzleGems',JSON.stringify(S))}catch(e){}};
+S.theme=S.theme||0;S.owned=S.owned||[0,1];S.chest=S.chest||0;
+if(S.music==null) S.music=true;
+if(S.sound==null) S.sound=true;
+if(S.vibrate==null) S.vibrate=true;
+if(S.volMusic==null) S.volMusic=35;
+if(S.volSound==null) S.volSound=70;
+save();
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='inline-block'});
 window.addEventListener('appinstalled',()=>{deferredPrompt=null;document.getElementById('installBtn').textContent='✅ Installé'});
@@ -162,43 +175,62 @@ function acceptCookies(){localStorage.setItem('cookieOk','1');document.getElemen
 const DEMO_MODE = false;
 const INTERSTITIAL_COOLDOWN = 120000;
 const ADMOB = { banner:'ca-app-pub-3940256099942544/6300978111', inter :'ca-app-pub-3940256099942544/1033173712', reward:'ca-app-pub-3940256099942544/5224354917' };
-const $=id=>document.getElementById(id);
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),1900)}
 function enterImmersive(){document.body.classList.add('playing');setTimeout(resize,50);setTimeout(resize,300)}
 function exitImmersive(){document.body.classList.remove('playing');setTimeout(resize,50);setTimeout(resize,300)}
 function exitToMenu(){exitImmersive();state='menu';$('menu').classList.add('show');$('over').classList.remove('show');renderLevels();ui()}
-// ===== MINI PARAMÈTRES PRO : MUSIQUE / SON / VIBRATION =====
-let audioCtx=null, musicTimer=null, musicPlaying=false, musicStep=0;
+// ===== MUSIQUE STYLE BRING ME BACK : LENTE, NOSTALGIQUE, DOUCE =====
+let audioCtx=null, musicTimer=null, musicPlaying=false, musicStep=0, useFileMusic=false;
 function getAudio(){ try{ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }catch(e){ return null } }
-// Musique douce style puzzle : gamme pentatonique calme, en boucle
-const MUSIC_NOTES=[523.25,587.33,659.25,783.99,880.00,783.99,659.25,587.33, 523.25,659.25,783.99,1046.50,880.00,783.99,659.25,523.25];
+// Mélodie originale dans le même esprit : La mineur, lent, qui monte et redescend comme un souvenir
+const MUSIC_NOTES=[
+  440.00, 523.25, 659.25, 783.99, 659.25, 523.25, // A - C - E - G - E - C
+  440.00, 523.25, 659.25, 880.00, 783.99, 659.25, 523.25, 440.00, // montée nostalgique
+  392.00, 523.25, 659.25, 783.99, 659.25, 523.25, 392.00, // G - C - E - G...
+  440.00, 349.23, 440.00, 523.25, 440.00, 329.63, 440.00, 523.25 // retour doux
+];
+const MUSIC_BASS=[110.00, 130.81, 164.81, 196.00];
 function playMusicNote(freq,dur,vol){
-  const ctx=getAudio(); if(!ctx||!S.music) return;
+  const ctx=getAudio(); if(!ctx||!S.music||useFileMusic) return;
   const o=ctx.createOscillator(), o2=ctx.createOscillator(), g=ctx.createGain();
   o.type='sine'; o.frequency.value=freq; o2.type='triangle'; o2.frequency.value=freq/2;
-  const now=ctx.currentTime; g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(vol,now+0.08); g.gain.exponentialRampToValueAtTime(0.0001,now+dur);
+  const now=ctx.currentTime; g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(vol,now+0.12); g.gain.exponentialRampToValueAtTime(0.0001,now+dur);
   o.connect(g); o2.connect(g); g.connect(ctx.destination); o.start(now); o2.start(now); o.stop(now+dur+0.05); o2.stop(now+dur+0.05);
 }
 function startMusic(){
-  if(musicPlaying||!S.music) return; musicPlaying=true; musicStep=0;
+  if(!S.music) return;
+  // Si tu as mis bring-me-back.mp3 à côté, on joue TON fichier, sinon la mélodie douce
+  const file=$('bgFile');
+  if(file && file.src){
+    file.volume=(S.volMusic||35)/100*0.6;
+    file.play().then(()=>{ useFileMusic=true; musicPlaying=true; }).catch(()=>{ useFileMusic=false; startSynthMusic(); });
+    return;
+  }
+  startSynthMusic();
+}
+function startSynthMusic(){
+  if(musicPlaying||!S.music) return; musicPlaying=true; musicStep=0; useFileMusic=false;
   const tick=()=>{
     if(!S.music){ stopMusic(); return; }
-    const vol=(S.volMusic!=null?S.volMusic:35)/100*0.08;
-    // 1 note douce toutes les 650ms + une basse très douce toutes les 4 notes
+    const vol=(S.volMusic!=null?S.volMusic:35)/100*0.09;
     const n=MUSIC_NOTES[musicStep % MUSIC_NOTES.length];
-    playMusicNote(n, 0.9, vol);
-    if(musicStep%4===0) playMusicNote(n/2, 1.4, vol*0.5);
+    playMusicNote(n, 1.1, vol);
+    if(musicStep%8===0) playMusicNote(MUSIC_BASS[(musicStep/8|0)%MUSIC_BASS.length], 2.2, vol*0.55);
     musicStep++;
-    musicTimer=setTimeout(tick, 650);
+    musicTimer=setTimeout(tick, 850); // LENT comme Bring Me Back, pas rapide
   };
   tick();
 }
-function stopMusic(){ musicPlaying=false; if(musicTimer) clearTimeout(musicTimer); musicTimer=null; }
+function stopMusic(){
+  musicPlaying=false; if(musicTimer) clearTimeout(musicTimer); musicTimer=null;
+  const file=$('bgFile'); if(file) file.pause();
+}
 function testMusic(){
   const old=S.music; S.music=true; save(); syncSettingsUI(); startMusic();
   toast('🎵 Écoute la musique...');
   setTimeout(()=>{ if(!old){ S.music=false; save(); syncSettingsUI(); stopMusic(); } }, 5000);
 }
+// ===== CORRECTION BUG : VOLUME NE CASSE PLUS LES BOUTONS =====
 function playSound(type){
   if(!S.sound) return;
   const ctx=getAudio(); if(!ctx) return;
@@ -212,34 +244,43 @@ function playSound(type){
     else if(type==='over'){ o.type='sine'; o.frequency.setValueAtTime(300,now); o.frequency.exponentialRampToValueAtTime(140,now+0.35); g.gain.setValueAtTime(0.07*baseVol,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.36); o.start(now); o.stop(now+0.37); }
   }catch(e){}
 }
-function vibrate(ms){ if(!S.vibrate) return; try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
+function vibrate(ms){
+  if(!S.vibrate) return false;
+  try{ if(navigator.vibrate){ navigator.vibrate(ms); return true; } }catch(e){}
+  return false;
+}
+function testVibrate(){
+  if(!S.vibrate){ toast('Active d’abord 📳 Vibration en haut'); return; }
+  const ok=vibrate([40,50,40]);
+  if(ok) toast('📳 Tu as senti ? Ça vibre !');
+  else toast('⚠️ Ton navigateur / iPhone bloque la vibration. Sur Android ça marche, sur iPhone Safari ne vibre pas.');
+}
 function openSettings(){ syncSettingsUI(); $('settings').classList.add('show'); }
 function closeSettings(){ $('settings').classList.remove('show'); }
 function syncSettingsUI(){
+  if(!$('swMusic')) return;
   $('swMusic').classList.toggle('on', !!S.music);
   $('swSound').classList.toggle('on', !!S.sound);
   $('swVibrate').classList.toggle('on', !!S.vibrate);
   $('volMusic').value=S.volMusic!=null?S.volMusic:35;
   $('volSound').value=S.volSound!=null?S.volSound:70;
+  $('volMusicVal').textContent=(S.volMusic||35)+'%';
+  $('volSoundVal').textContent=(S.volSound||70)+'%';
+  const file=$('bgFile'); if(file) file.volume=(S.volMusic||35)/100*0.6;
 }
 function toggleSetting(key){
   S[key]=!S[key]; save(); syncSettingsUI();
   if(key==='music'){ if(S.music){ startMusic(); toast('🎵 Musique activée'); } else { stopMusic(); toast('🔇 Musique coupée'); } }
   if(key==='sound'&&S.sound) playSound('line');
-  if(key==='vibrate'&&S.vibrate) vibrate(15);
+  if(key==='vibrate'&&S.vibrate){ vibrate(20); toast('📳 Vibration activée'); }
 }
-function setVolume(key,val){ S[key]=parseInt(val); save(); }
+// CORRIGÉ : avant setVolume('music') cassait S.music. Maintenant c'est volMusic / volSound
+function setVolume(key,val){
+  S[key]=parseInt(val); save(); syncSettingsUI();
+  if(key==='volSound') playSound('pick');
+}
 const Ads = {native: !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()),_got:false,_cb:null,loaded:new Set(),lastInter:0,loadWeb(el){ if(!el||this.loaded.has(el))return; this.loaded.add(el); try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){} },async init(){ if(!this.native){ this.loadWeb(document.querySelector('#adBottom ins')); return; } document.body.classList.add('native'); try{ const A=Capacitor.Plugins.AdMob; await A.initialize({}); A.addListener('onRewardedVideoAdReward',()=>{this._got=true}); A.addListener('onRewardedVideoAdDismissed',()=>{ if(this._got&&this._cb)this._cb(); else toast('Regarde la pub en entier pour la récompense'); this._got=false; this._cb=null }); A.showBanner({adId:ADMOB.banner,adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0}); }catch(e){} },rewarded(name,onReward){ if(!navigator.onLine){toast('Connecte-toi à Internet pour gagner ce bonus 📶');return} if(DEMO_MODE){ $('fakeAd').classList.add('show'); let t=3; $('fakeT').textContent=t; const iv=setInterval(()=>{t--;$('fakeT').textContent=t;if(t<=0){clearInterval(iv);$('fakeAd').classList.remove('show');onReward()}},1000); return; } if(this.native){ const A=Capacitor.Plugins.AdMob; this._got=false; this._cb=onReward; A.prepareRewardVideoAd({adId:ADMOB.reward}).then(()=>A.showRewardVideoAd()).catch(()=>toast('Pub indisponible, réessaie plus tard')); return; } let ok=false; adBreak({type:'reward',name:name,beforeReward:s=>s(),adViewed:()=>{ok=true},adDismissed:()=>toast('Regarde la pub en entier pour la récompense'), adBreakDone:i=>{ if(ok) onReward(); else if(i.breakStatus!=='dismissed') toast('Aucune pub disponible, réessaie plus tard') }}); },interstitial(name){ if(DEMO_MODE||Date.now()-this.lastInter<INTERSTITIAL_COOLDOWN) return; this.lastInter=Date.now(); if(this.native){ const A=Capacitor.Plugins.AdMob; A.prepareInterstitial({adId:ADMOB.inter}).then(()=>A.showInterstitial()).catch(()=>{}); } else adBreak({type:'next',name:name}); }};
 Ads.init();
-let S=(()=>{try{return JSON.parse(localStorage.getItem('blockPuzzleGems'))}catch(e){return null}})()||{best:0,coins:0,bomb:1,swap:1,undo:1,games:0,daily:'',streak:0};
-const save=()=>{try{localStorage.setItem('blockPuzzleGems',JSON.stringify(S))}catch(e){}};
-S.theme=S.theme||0;S.owned=S.owned||[0,1];S.chest=S.chest||0;
-// Paramètres par défaut : tout activé, comme les jeux pros
-if(S.music==null) S.music=true;
-if(S.sound==null) S.sound=true;
-if(S.vibrate==null) S.vibrate=true;
-if(S.volMusic==null) S.volMusic=35;
-if(S.volSound==null) S.volSound=70;
 const LEVELS=[
   {n:'Facile',emoji:'🟢',color:'#16a34a',mult:1,   maxCells:3,  bigChance:0.05, target:150, desc:'Petits blocs'},
   {n:'Normal',emoji:'🔵',color:'#2563eb',mult:1.5, maxCells:4,  bigChance:0.15, target:300, desc:'Un peu plus dur'},
@@ -495,7 +536,6 @@ function draw(dt){
 }
 let last=performance.now();
 (function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;draw(dt);requestAnimationFrame(loop)})(performance.now());
-// Musique démarre au premier toucher (obligatoire sur mobile)
 document.addEventListener('pointerdown',()=>{ if(S.music) startMusic(); },{once:false});
 syncSettingsUI(); renderLevels(); ui();
 </script>

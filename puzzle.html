@@ -12,8 +12,8 @@
 <meta name="apple-mobile-web-app-title" content="Block Puzzle Gems">
 <link rel="icon" href="data:image/svg+xml,[STRIPPED]">
 <link rel="apple-touch-icon" href="data:image/svg+xml,[STRIPPED]">
-<script async data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-<script>window.adsbygoogle=window.adsbygoogle||[];window.adBreak=window.adConfig=function(o){adsbygoogle.push(o)};adConfig({preloadAdBreaks:'on',sound:'on'});</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<script>window.adsbygoogle=window.adsbygoogle||[];</script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;height:100dvh;margin:0;overflow:hidden;overscroll-behavior:none}
@@ -212,7 +212,7 @@ function closeSettings(){ $('settings').classList.remove('show'); }
 function syncSettingsUI(){ if(!$('swMusic')) return; $('swMusic').classList.toggle('on', !!S.music); $('swSound').classList.toggle('on', !!S.sound); $('swVibrate').classList.toggle('on', !!S.vibrate); if($('swVoice')) $('swVoice').classList.toggle('on', !!S.voice); $('volMusic').value=S.volMusic!=null?S.volMusic:35; $('volSound').value=S.volSound!=null?S.volSound:70; $('volMusicVal').textContent=(S.volMusic||35)+'%'; $('volSoundVal').textContent=(S.volSound||70)+'%'; if($('myMusicName')) $('myMusicName').textContent=S.myMusicName ? '🎵 En cours : '+S.myMusicName : 'Aucune musique choisie - clique pour choisir'; const file=$('bgFile'); if(file) file.volume=(S.volMusic||35)/100*0.6; }
 function toggleSetting(key){ S[key]=!S[key]; save(); syncSettingsUI(); if(key==='music'){ if(S.music){ startMusic(); toast('🎵 Musique activée'); } else { stopMusic(); toast('🔇 Musique coupée'); } } if(key==='sound'&&S.sound) playSound('line'); if(key==='voice'&&S.voice) playCrowdOh(2); if(key==='vibrate'&&S.vibrate){ vibrate(20); toast('📳 Vibration activée'); } }
 function setVolume(key,val){ S[key]=parseInt(val); save(); syncSettingsUI(); if(key==='volSound') playSound('pick'); }
-const Ads = {native: !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()),_got:false,_cb:null,loaded:new Set(),lastInter:0,loadWeb(el){ if(!el||this.loaded.has(el))return; this.loaded.add(el); try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){} },async init(){ if(!this.native){ this.loadWeb(document.querySelector('#adBottom ins')); return; } document.body.classList.add('native'); try{ const A=Capacitor.Plugins.AdMob; await A.initialize({}); A.addListener('onRewardedVideoAdReward',()=>{this._got=true}); A.addListener('onRewardedVideoAdDismissed',()=>{ if(this._got&&this._cb)this._cb(); else toast('Regarde la pub en entier pour la récompense'); this._got=false; this._cb=null }); A.showBanner({adId:ADMOB.banner,adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0}); }catch(e){} },rewarded(name,onReward){ if(!navigator.onLine){toast('Connecte-toi à Internet pour gagner ce bonus 📶');return} if(DEMO_MODE){ $('fakeAd').classList.add('show'); let t=3; $('fakeT').textContent=t; const iv=setInterval(()=>{t--;$('fakeT').textContent=t;if(t<=0){clearInterval(iv);$('fakeAd').classList.remove('show');onReward()}},1000); return; } if(this.native){ const A=Capacitor.Plugins.AdMob; this._got=false; this._cb=onReward; A.prepareRewardVideoAd({adId:ADMOB.reward}).then(()=>A.showRewardVideoAd()).catch(()=>toast('Pub indisponible, réessaie plus tard')); return; } let ok=false; adBreak({type:'reward',name:name,beforeReward:s=>s(),adViewed:()=>{ok=true},adDismissed:()=>toast('Regarde la pub en entier pour la récompense'), adBreakDone:i=>{ if(ok) onReward(); else if(i.breakStatus!=='dismissed') toast('Aucune pub disponible, réessaie plus tard') }}); },interstitial(name){ if(DEMO_MODE||Date.now()-this.lastInter<INTERSTITIAL_COOLDOWN) return; this.lastInter=Date.now(); if(this.native){ const A=Capacitor.Plugins.AdMob; A.prepareInterstitial({adId:ADMOB.inter}).then(()=>A.showInterstitial()).catch(()=>{}); } else adBreak({type:'next',name:name}); }};
+const Ads = {native: !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()),_got:false,_cb:null,loaded:new Set(),lastInter:0,loadWeb(el){ if(!el||this.loaded.has(el))return; this.loaded.add(el); try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){} },async init(){ if(!this.native){ this.loadWeb(document.querySelector('#adBottom ins')); return; } document.body.classList.add('native'); try{ const A=Capacitor.Plugins.AdMob; await A.initialize({}); A.addListener('onRewardedVideoAdReward',()=>{this._got=true}); A.addListener('onRewardedVideoAdDismissed',()=>{ if(this._got&&this._cb)this._cb(); else toast('Regarde la pub en entier pour la récompense'); this._got=false; this._cb=null }); A.showBanner({adId:ADMOB.banner,adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0}); }catch(e){} },rewarded(name,onReward){ if(!navigator.onLine){toast('Connecte-toi à Internet pour gagner ce bonus 📶');return} if(DEMO_MODE){ $('fakeAd').classList.add('show'); let t=3; $('fakeT').textContent=t; const iv=setInterval(()=>{t--;$('fakeT').textContent=t;if(t<=0){clearInterval(iv);$('fakeAd').classList.remove('show');onReward()}},1000); return; } if(this.native){ const A=Capacitor.Plugins.AdMob; this._got=false; this._cb=onReward; A.prepareRewardVideoAd({adId:ADMOB.reward}).then(()=>A.showRewardVideoAd()).catch(()=>toast('Pub indisponible, réessaie plus tard')); return; } toast('🎬 Pub bientôt disponible - bonus offert !'); onReward(); },interstitial(name){ if(DEMO_MODE||Date.now()-this.lastInter<INTERSTITIAL_COOLDOWN) return; this.lastInter=Date.now(); if(this.native){ const A=Capacitor.Plugins.AdMob; A.prepareInterstitial({adId:ADMOB.inter}).then(()=>A.showInterstitial()).catch(()=>{}); } }};
 Ads.init();
 const LEVELS=[
   {n:'Facile',emoji:'🟢',color:'#16a34a',mult:1,   maxCells:3,  bigChance:0.05, target:1000, desc:'Petits blocs'},
@@ -299,7 +299,50 @@ function say(txt,col='#fde047',x=W/2,y=BY+N*CS/2,size=26){texts.push({txt,x,y,l:
 function floatScore(txt,x,y,col='#fde047'){texts.push({txt,x,y,l:0.9,col,size:16,small:true})}
 function placeFlashAt(r,c,p){placeFlash={r,c,cells:p.cells.map(([i,j])=>[(r+i)*N+(c+j)]),t:0}}
 function place(idx,r,c){ snap={grid:grid.map(x=>x.slice()),pieces:pieces.map(p=>p&&{...p}),score}; const p=pieces[idx]; p.cells.forEach(([i,j])=>grid[r+i][c+j]=p.color+1); const gained=Math.round(p.cells.length*curLevel().mult); score+=gained; scorePop=1; playSound('place'); vibrate(8); const mw=document.getElementById('miniScoreWrap'); if(mw){mw.classList.remove('pop'); void mw.offsetWidth; mw.classList.add('pop')} placeFlashAt(r,c,p); floatScore('+'+gained, BX+(c+p.w/2)*CS, BY+(r)*CS-6); refillOneSlot(idx); state='busy'; ui(); checkUnlock(); setTimeout(()=>resolve(0),90); }
-function resolve(chain){ const rows=[],cols=[]; for(let i=0;i<N;i++){if(grid[i].every(v=>v))rows.push(i);if(grid.every(row=>row[i]))cols.push(i)} const lines=rows.length+cols.length; if(!lines){finish();return} const ordered=[]; rows.forEach(i=>{ for(let j=0;j<N;j++) ordered.push({i,j}); }); cols.forEach(j=>{ for(let i=0;i<N;i++) if(!rows.includes(i)) ordered.push({i,j}); }); ordered.forEach((cell,k)=>{ setTimeout(()=>{ flashCells.push({i:cell.i,j:cell.j,t:0}); }, k*45); }); const totalDelay = ordered.length*45 + 180; ordered.forEach((cell,k)=>{ setTimeout(()=>{ flashCells=flashCells.filter(f=>!(f.i===cell.i&&f.j===cell.j)); if(grid[cell.i][cell.j]){ burst(cell.i,cell.j,COLORS[(grid[cell.i][cell.j]-1+7)%7]); grid[cell.i][cell.j]=0; if(S.sound){ try{ const c=getAudio(); if(c){ const o=c.createOscillator(), g=c.createGain(); o.type='sine'; o.frequency.value=800+k*30; const now=c.currentTime; g.gain.setValueAtTime(0.03,now); g.gain.exponentialRampToValueAtTime(0.001,now+0.08); o.connect(g); g.connect(c.destination); o.start(now); o.stop(now+0.09); } }catch(e){} } } }, totalDelay + k*70); }); setTimeout(()=>{ const pts=Math.round(30*lines*(lines+chain)*curLevel().mult); score+=pts; scorePop=1; playVictory(lines, chain); vibrate(15); const mw=document.getElementById('miniScoreWrap'); if(mw){mw.classList.remove('pop'); void mw.offsetWidth; mw.classList.add('pop')} S.coins+=lines*2; gameCoins+=lines*2; shake=.12; if(chain>0) say('RÉACTION x'+(chain+1)+' 🔥','#fb923c',W/2,BY+120,26); else if(lines>1) say('✨ x'+lines+' LIGNES ✨','#fde047',W/2,BY+120,24); else floatScore('+'+pts, W/2, BY+120, '#fde047'); checkUnlock(); setTimeout(()=>settle(chain+1), 380); }, totalDelay + ordered.length*70 + 120); }
+function resolve(chain){
+  const rows=[],cols=[];
+  for(let i=0;i<N;i++){if(grid[i].every(v=>v))rows.push(i);if(grid.every(row=>row[i]))cols.push(i)}
+  const lines=rows.length+cols.length;
+  if(!lines){finish();return}
+  // GROUPE PAR LIGNE / COLONNE : chaque ligne/colonne est un groupe
+  const groups=[];
+  rows.forEach(i=>{ const g=[]; for(let j=0;j<N;j++) g.push({i,j}); groups.push(g); });
+  cols.forEach(j=>{ const g=[]; for(let i=0;i<N;i++) if(!rows.includes(i)) g.push({i,j}); groups.push(g); });
+  // 1) FLASH : toutes les lignes/colonnes flashent EN MEME TEMPS,
+  // mais à l'intérieur de chaque ligne, ça évolue case par case (45ms)
+  groups.forEach(g=>{
+    g.forEach((cell,k)=>{
+      setTimeout(()=>{ flashCells.push({i:cell.i,j:cell.j,t:0}); }, k*45);
+    });
+  });
+  const totalFlash = 8*45 + 180;
+  // 2) EXPLOSION : toutes les lignes/colonnes explosent EN MEME TEMPS,
+  // mais à l'intérieur de chaque ligne, ça explose case par case (70ms)
+  groups.forEach(g=>{
+    g.forEach((cell,k)=>{
+      setTimeout(()=>{
+        flashCells=flashCells.filter(f=>!(f.i===cell.i&&f.j===cell.j));
+        if(grid[cell.i][cell.j]){
+          burst(cell.i,cell.j,COLORS[(grid[cell.i][cell.j]-1+7)%7]);
+          grid[cell.i][cell.j]=0;
+          if(S.sound){
+            try{ const c=getAudio(); if(c){ const o=c.createOscillator(), gg=c.createGain(); o.type='sine'; o.frequency.value=800+k*30; const now=c.currentTime; gg.gain.setValueAtTime(0.03,now); gg.gain.exponentialRampToValueAtTime(0.001,now+0.08); o.connect(gg); gg.connect(c.destination); o.start(now); o.stop(now+0.09); } }catch(e){}
+          }
+        }
+      }, totalFlash + k*70);
+    });
+  });
+  setTimeout(()=>{
+    const pts=Math.round(30*lines*(lines+chain)*curLevel().mult); score+=pts; scorePop=1;
+    playVictory(lines, chain); vibrate(15);
+    const mw=document.getElementById('miniScoreWrap'); if(mw){mw.classList.remove('pop'); void mw.offsetWidth; mw.classList.add('pop')}
+    S.coins+=lines*2; gameCoins+=lines*2; shake=.12;
+    if(chain>0) say('RÉACTION x'+(chain+1)+' 🔥','#fb923c',W/2,BY+120,26);
+    else if(lines>1) say('✨ x'+lines+' LIGNES ✨','#fde047',W/2,BY+120,24);
+    else floatScore('+'+pts, W/2, BY+120, '#fde047');
+    checkUnlock(); setTimeout(()=>settle(chain+1), 380);
+  }, totalFlash + 8*70 + 120);
+}
 function settle(chain){ const moves=[]; for(let c=0;c<N;c++){ let w=N-1; for(let r=N-1;r>=0;r--) if(grid[r][c]){ if(r!==w){grid[w][c]=grid[r][c];grid[r][c]=0;moves.push({c,from:r,to:w,col:grid[w][c]})} w--; } } if(moves.length){ anim={t:0,dur:.42,moves,dest:new Set(moves.map(m=>m.to*N+m.c))}; setTimeout(()=>resolve(chain),anim.dur*1000+120) } else resolve(chain); }
 function finish(){ if(grid.every(r=>r.every(v=>!v))&&snap){score+=Math.round(100*curLevel().mult);S.coins+=10;gameCoins+=10;say('PARFAIT ! +'+Math.round(100*curLevel().mult)+' 🌟','#a7f3d0')} if(score>S.best)S.best=score; save(); state='play'; ui(); checkUnlock(); if(!pieces.some(p=>p&&canPlaceAnywhere(p))) setTimeout(gameOver,500); }
 function gameOver(){ if(state!=='play')return; state='over'; playSound('over'); vibrate([30,40,30]); exitImmersive(); $('overLevel').textContent='Niveau : '+curLevel().emoji+' '+curLevel().n+' (x'+curLevel().mult+')'; $('oScore').textContent=score;$('oBest').textContent=S.best; $('oC').textContent=gameCoins;$('doubleBtn').style.display=gameCoins>0?'block':'none'; $('reviveBtn').style.display=revived?'none':'block'; const showAd=S.games%2===0; $('overAd').style.display=(showAd&&!Ads.native)?'block':'none'; if(showAd){if(!Ads.native)Ads.loadWeb(document.querySelector('#overAd ins'));Ads.interstitial('game_over')} $('over').classList.add('show'); renderLevels(); }
@@ -319,7 +362,7 @@ $('giftBtn').onclick=()=>{ const y=new Date(Date.now()-864e5).toISOString().slic
 $('reviveBtn').onclick=()=>Ads.rewarded('revive',()=>{ const rc=[...Array(N).keys()].map(i=>[i,grid[i].filter(v=>v).length]).sort((a,b)=>b[1]-a[1]).slice(0,2); const cc=[...Array(N).keys()].map(j=>[j,grid.filter(r=>r[j]).length]).sort((a,b)=>b[1]-a[1]).slice(0,2); rc.forEach(([i])=>{for(let j=0;j<N;j++)if(grid[i][j]){burst(i,j,COLORS[grid[i][j]-1]);grid[i][j]=0}}); cc.forEach(([j])=>{for(let i=0;i<N;i++)if(grid[i][j]){burst(i,j,COLORS[grid[i][j]-1]);grid[i][j]=0}}); revived=true;snap=null;newPieces();$('over').classList.remove('show');state='busy';ui();enterImmersive();setTimeout(()=>settle(0),300); });
 function offer(msg,name,onYes){ $('offerMsg').textContent=msg;$('offer').classList.add('show'); $('offerYes').onclick=()=>{$('offer').classList.remove('show');Ads.rewarded(name,onYes)}; $('offerNo').onclick=()=>$('offer').classList.remove('show'); }
 $('doubleBtn').onclick=()=>Ads.rewarded('double_coins',()=>{S.coins+=gameCoins;save();ui();$('doubleBtn').style.display='none';toast('Pièces doublées ! +'+gameCoins+' 💰')});
-function chestTick(){ const b=$('chestBtn'),left=S.chest-Date.now(); if(left<=0){b.textContent='📦 Coffre gratuit prêt !';b.classList.add('pulse')} else{const m=Math.floor(left/60000),s=Math.floor(left%60000/1000);b.textContent='?? Coffre dans '+m+':'+String(s).padStart(2,'0');b.classList.remove('pulse')} }
+function chestTick(){ const b=$('chestBtn'),left=S.chest-Date.now(); if(left<=0){b.textContent='📦 Coffre gratuit prêt !';b.classList.add('pulse')} else{const m=Math.floor(left/60000),s=Math.floor(left%60000/1000);b.textContent='📦 Coffre dans '+m+':'+String(s).padStart(2,'0');b.classList.remove('pulse')} }
 setInterval(chestTick,1000);chestTick();
 $('chestBtn').onclick=()=>{ if(S.chest>Date.now())return toast('Reviens bientôt, le coffre se recharge ⏳'); const g=30+Math.floor(Math.random()*31);S.coins+=g;S.chest=Date.now()+4*60000;save();ui();chestTick();toast('📦 +'+g+' 💰'); setTimeout(()=>offer('Doubler le contenu du coffre (+'+g+' 💰) avec une pub ?','chest_x2',()=>{S.coins+=g;save();ui();toast('Coffre doublé ! +'+g+' 💰')}),700); };
 function openThemes(){ const box=$('themeList');box.innerHTML=''; THEMES.forEach((t,i)=>{ const row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-top:8px;text-align:left'; const sw=document.createElement('div');sw.style.cssText='display:flex;gap:3px;flex:1;align-items:center;font-size:14px'; sw.innerHTML='<span style="flex:1">'+t.n+'</span>'+t.c.slice(0,3).map(c=>'<i style="width:14px;height:14px;border-radius:4px;background:'+c+'"></i>').join(''); const b=document.createElement('button');b.className='b';b.style.cssText='width:105px;margin:0;padding:8px;font-size:14px'; const owned=S.owned.includes(i); b.textContent=S.theme===i?'✔ Actif':owned?'Choisir':(t.cost+' 💰');b.disabled=S.theme===i; b.onclick=()=>{ if(owned){S.theme=i;COLORS=t.c;save();openThemes();return} if(S.coins>=t.cost){S.coins-=t.cost;S.owned.push(i);S.theme=i;COLORS=t.c;save();ui();openThemes()} else offer('Pas assez de pièces. Regarde une pub pour débloquer « '+t.n+' » ?','theme',()=>{S.owned.push(i);S.theme=i;COLORS=t.c;save();openThemes()}); }; row.appendChild(sw);row.appendChild(b);box.appendChild(row); }); $('themes').classList.add('show'); }

@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-<audio id="bgFile" loop preload="none" src="puzzle-game.mp3"></audio>
+<audio id="bgFile" loop preload="auto" src="puzzle-game.mp3"></audio>
 <input type="file" id="musicFile" accept="audio/*" style="display:none">
 <header><div class="logo">💎 Block Puzzle Gems</div><nav><a href="index.html" id="homeBtn">← 🏠 Accueil</a><a href="#" onclick="openHelp();return false">Aide</a><a href="#" onclick="openPage('contact');return false">Contact</a></nav></header>
 <div class="hero"><h1>Block Puzzle Gems - Jeu de puzzle gratuit</h1><p>Glisse les blocs, complète les lignes, déclenche des réactions en chaîne. 100% gratuit.</p></div>
@@ -45,7 +45,7 @@
 <div class="tabs"><button class="active" onclick="showTab('how',this)">📖 Comment jouer</button><button onclick="showTab('tips',this)">💡 Astuces</button><button onclick="showTab('faq',this)">❓ FAQ</button></div>
 <div class="tab-content">
 <div class="tab-panel active" id="tab-how"><h2>Comment jouer ?</h2><ol><li>Prends un bloc parmi les 3 en bas. Glisse-le sur la grille 8x8.</li><li>Pose-le : un nouveau bloc arrive tout de suite à sa place.</li><li>Complète une ligne : les briques se cassent les unes après les autres, en cascade.</li><li>Les blocs tombent et créent des réactions en chaîne !</li></ol></div>
-<div class="tab-panel" id="tab-tips"><h2>7 niveaux : de Facile à CHAMPION</h2><p><b>1. Facile</b> 1 000 pts. <b>2. Normal</b> 3 000 pts. <b>3. Difficile</b> 6 500 pts. <b>4. Expert</b> 12 000 pts. <b>5. MAÎTRE</b> 20 000 pts. <b>6. GRAND MAÎTRE</b> 35 000 pts. <b>7. CHAMPION</b> 50 000 pts. Pièces comme chez les pros : L max 3 briques par côté.</p><p>Block Puzzle Gems est inspiré de Blockudoku et 1010!, mais gratuit et sans téléchargement. Par MdigistarX.</p></div>
+<div class="tab-panel" id="tab-tips"><h2>7 niveaux : de Facile à CHAMPION</h2><p><b>1. Facile</b> 1 000 pts. <b>2. Normal</b> 3 000 pts. <b>3. Difficile</b> 6 500 pts. <b>4. Expert</b> 12 000 pts. <b>5. MAÎTRE</b> 20 000 pts. <b>6. GRAND MAÎTRE</b> 35 000 pts. <b>7. CHAMPION</b> 50 000 pts. Pièces comme les jeux populaires : barre 3-4-5, carré 2x2 et 3x3, L 3x3 et L 4x3 qui dépasse un peu.</p><p>Block Puzzle Gems est inspiré de Blockudoku et 1010!, mais gratuit et sans téléchargement. Par MdigistarX.</p></div>
 <div class="tab-panel" id="tab-faq"><h2>FAQ</h2><p><b>Gratuit ?</b> Oui, 100%. <b>Musique ?</b> Oui, mets TA musique dans ⚙️ Paramètres. <b>Niveaux ?</b> 7 niveaux, du plus facile au CHAMPION. <b>Pièces ?</b> Lignes + coffre + cadeau du jour + pubs.</p></div>
 </div>
 <footer><p>© 2026 MdigistarX - <a href="#" onclick="openPage('privacy');return false">Confidentialité</a> | <a href="#" onclick="openPage('contact');return false">Contact</a> | <a href="#" onclick="openPage('about');return false">À propos</a></p></footer>
@@ -80,7 +80,19 @@ function getAudio(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.we
 const MUSIC_NOTES=[523.25,659.25,783.99,880,783.99,659.25,523.25,659.25,587.33,659.25,783.99,1046.5,880,783.99,659.25,587.33,523.25,659.25,783.99,880,1046.5,880,783.99,659.25,587.33,698.46,880,783.99,659.25,587.33,523.25,0];
 const MUSIC_BASS=[130.81,164.81,196,220];
 function playMusicNote(f,d,v){if(!f)return;const ctx=getAudio();if(!ctx||!S.music||useFileMusic)return;const o=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.value=f;o2.type='sine';o2.frequency.value=f/2;const n=ctx.currentTime;g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(v,n+0.06);g.gain.exponentialRampToValueAtTime(0.0001,n+d);o.connect(g);o2.connect(g);g.connect(ctx.destination);o.start(n);o2.start(n);o.stop(n+d+0.05);o2.stop(n+d+0.05);}
-function startMusic(){if(!S.music)return;const file=$('bgFile');if(myMusicURL){file.src=myMusicURL;file.volume=(S.volMusic||35)/100*0.7;file.play().then(()=>{useFileMusic=true;musicPlaying=true;}).catch(()=>{useFileMusic=false;startSynthMusic();});return;}if(file&&file.src){file.volume=(S.volMusic||35)/100*0.6;file.play().then(()=>{useFileMusic=true;musicPlaying=true;}).catch(()=>{useFileMusic=false;startSynthMusic();});return;}startSynthMusic();}
+function startMusic(){
+  if(!S.music) return;
+  if(musicTimer) clearTimeout(musicTimer);
+  musicTimer=null; musicPlaying=false; useFileMusic=true;
+  const file=$('bgFile');
+  if(myMusicURL){ file.src=myMusicURL; }
+  if(file && file.src){
+    file.volume=(S.volMusic||35)/100*0.6;
+    file.play().then(()=>{ musicPlaying=true; }).catch(()=>{ useFileMusic=false; startSynthMusic(); });
+    return;
+  }
+  useFileMusic=false; startSynthMusic();
+}
 function startSynthMusic(){if(musicPlaying||!S.music)return;musicPlaying=true;musicStep=0;useFileMusic=false;const tick=()=>{if(!S.music){stopMusic();return;}const v=(S.volMusic!=null?S.volMusic:35)/100*0.09;const n=MUSIC_NOTES[musicStep%MUSIC_NOTES.length];playMusicNote(n,0.55,v);if(musicStep%4===0)playMusicNote(MUSIC_BASS[(musicStep/4|0)%MUSIC_BASS.length],1.0,v*0.5);musicStep++;musicTimer=setTimeout(tick,520);};tick();}
 function stopMusic(){musicPlaying=false;if(musicTimer)clearTimeout(musicTimer);musicTimer=null;const file=$('bgFile');if(file){try{file.pause();file.currentTime=0;}catch(e){}}if(audioCtx){try{audioCtx.suspend()}catch(e){}}}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopMusic();});
@@ -105,10 +117,10 @@ function setVolume(key,val){S[key]=parseInt(val);save();syncSettingsUI();if(key=
 const Ads={native:!!(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform()),_got:false,_cb:null,loaded:new Set(),lastInter:0,loadWeb(el){if(!el||this.loaded.has(el))return;this.loaded.add(el);try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}},async init(){if(!this.native){this.loadWeb(document.querySelector('#adBottom ins'));return;}document.body.classList.add('native');try{const A=Capacitor.Plugins.AdMob;await A.initialize({});A.addListener('onRewardedVideoAdReward',()=>{this._got=true});A.addListener('onRewardedVideoAdDismissed',()=>{if(this._got&&this._cb)this._cb();else toast('Regarde la pub en entier');this._got=false;this._cb=null});A.showBanner({adId:ADMOB.banner,adSize:'ADAPTIVE_BANNER',position:'BOTTOM_CENTER',margin:0});}catch(e){}},rewarded(name,onReward){if(!navigator.onLine){toast('Connecte-toi à Internet 📶');return}if(DEMO_MODE){$('fakeAd').classList.add('show');let t=3;$('fakeT').textContent=t;const iv=setInterval(()=>{t--;$('fakeT').textContent=t;if(t<=0){clearInterval(iv);$('fakeAd').classList.remove('show');onReward()}},1000);return;}if(this.native){const A=Capacitor.Plugins.AdMob;this._got=false;this._cb=onReward;A.prepareRewardVideoAd({adId:ADMOB.reward}).then(()=>A.showRewardVideoAd()).catch(()=>toast('Pub indisponible'));return;}toast('🎬 Pub bientôt disponible - bonus offert !');onReward();},interstitial(name){if(DEMO_MODE||Date.now()-this.lastInter<INTERSTITIAL_COOLDOWN)return;this.lastInter=Date.now();if(this.native){const A=Capacitor.Plugins.AdMob;A.prepareInterstitial({adId:ADMOB.inter}).then(()=>A.showInterstitial()).catch(()=>{});}}};
 Ads.init();
 const LEVELS=[
-{n:'Facile',emoji:'🟢',color:'#16a34a',mult:1,maxCells:3,bigChance:0.05,target:1000,desc:'Petits blocs'},
-{n:'Normal',emoji:'🔵',color:'#2563eb',mult:1.5,maxCells:4,bigChance:0.15,target:3000,desc:'Un peu plus dur'},
-{n:'Difficile',emoji:'🟠',color:'#f59e0b',mult:2,maxCells:5,bigChance:0.35,target:6500,desc:'Grosses pièces'},
-{n:'Expert',emoji:'🔴',color:'#ef4444',mult:3,maxCells:6,bigChance:0.60,target:12000,desc:'Très dur'},
+{n:'Facile',emoji:'🟢',color:'#16a34a',mult:1,maxCells:7,bigChance:0.05,target:1000,desc:'Petits blocs'},
+{n:'Normal',emoji:'🔵',color:'#2563eb',mult:1.5,maxCells:7,bigChance:0.15,target:3000,desc:'Un peu plus dur'},
+{n:'Difficile',emoji:'🟠',color:'#f59e0b',mult:2,maxCells:7,bigChance:0.35,target:6500,desc:'Grosses pièces'},
+{n:'Expert',emoji:'🔴',color:'#ef4444',mult:3,maxCells:7,bigChance:0.60,target:12000,desc:'Très dur'},
 {n:'MAÎTRE',emoji:'💀',color:'#a21caf',mult:5,maxCells:99,bigChance:0.85,target:20000,desc:'Que des monstres'},
 {n:'GRAND MAÎTRE',emoji:'👑',color:'#7c3aed',mult:6,maxCells:99,bigChance:0.90,target:35000,desc:'Pour les légendes'},
 {n:'CHAMPION',emoji:'🏆',color:'#eab308',mult:8,maxCells:99,bigChance:0.95,target:50000,desc:'Le sommet - x8'},
@@ -118,8 +130,15 @@ function curLevel(){return LEVELS[S.level]}
 let showAllLevels=false;
 function renderLevels(){const box=$('levelList');if(!box)return;box.innerHTML='';const L=curLevel();const cur=document.createElement('div');cur.className='lvlCurrent';cur.style.background=L.color;const target=L.target;const bestForLevel=Math.max(S.best,score);const pct=S.level>=LEVELS.length-1?100:Math.min(100,Math.round((bestForLevel/target)*100));const remain=S.level>=LEVELS.length-1?'Tu es CHAMPION ! 🏆':'Plus que '+(target-bestForLevel)+' pts pour débloquer '+LEVELS[S.level+1].n;cur.innerHTML='<b>'+L.emoji+' '+(S.level+1)+'. '+L.n+' · x'+L.mult+'</b><small>'+L.desc+' · Objectif : '+target+' pts</small><div class="progressBar"><div class="progressFill" style="width:'+pct+'%"></div></div><div class="progressText">'+bestForLevel+' / '+target+' pts · '+pct+'% · '+remain+'</div>';box.appendChild(cur);if(S.level<LEVELS.length-1){const nx=LEVELS[S.level+1];const next=document.createElement('div');next.className='lvlBtn locked';next.style.background=nx.color;const unlocked=S.unlocked>S.level;next.innerHTML='<span>'+nx.emoji+' '+(S.level+2)+'. '+nx.n+' <small>· '+nx.desc+' · x'+nx.mult+'</small></span><span>'+(unlocked?'▶ Suivant':'🔒 '+nx.target+' pts')+'</span>';next.onclick=()=>{if(!unlocked)return toast('Fais '+nx.target+' pts pour débloquer ! 🔒');S.level=S.level+1;save();renderLevels();ui();};box.appendChild(next);}const toggle=document.createElement('button');toggle.className='lvlToggle';toggle.textContent=showAllLevels?'▲ Cacher les autres niveaux':'▼ Voir tous les niveaux (7)';toggle.onclick=()=>{showAllLevels=!showAllLevels;renderLevels();};box.appendChild(toggle);if(showAllLevels){LEVELS.forEach((Lv,i)=>{if(i===S.level||i===S.level+1)return;const unlocked=i<=S.unlocked;const b=document.createElement('button');b.className='lvlBtn'+(i===S.level?' sel':'')+(unlocked?'':' locked');b.style.background=Lv.color;b.innerHTML='<span>'+Lv.emoji+' '+(i+1)+'. '+Lv.n+' <small>· '+Lv.desc+' · x'+Lv.mult+'</small></span><span>'+(unlocked?'▶':'🔒 '+Lv.target+' pts')+'</span>';b.onclick=()=>{if(!unlocked)return toast('Fais '+Lv.target+' pts pour débloquer ! 🔒');S.level=i;save();renderLevels();ui();};box.appendChild(b);});}$('playLevelName').textContent=curLevel().n;$('miniLevel').textContent=curLevel().n;}
 function checkUnlock(){if(S.level<LEVELS.length-1&&score>=LEVELS[S.level].target&&S.unlocked===S.level){S.unlocked=S.level+1;save();renderLevels();toast('🎉 NIVEAU DÉBLOQUÉ : '+LEVELS[S.unlocked].n+' !');setTimeout(()=>toast('🎉 Nouveau niveau : '+LEVELS[S.unlocked].n+' !'),2200);}}
-// FORMES PRO : L = 3 max par côté, comme Block Blast / Blockudoku. Pas de L4, pas de L5.
-const SHAPES=['1','11','111','1111','11111','1|1','1|1|1','1|1|1|1','1|1|1|1|1','11|11','111|111|111','111|111','11|11|11','10|11','01|11','11|10','11|01','100|100|111','001|001|111','111|100|100','111|001|001','111|010','010|111','110|011','011|110'].map(s=>{const rows=s.split('|'),cells=[];rows.forEach((r,i)=>[...r].forEach((ch,j)=>{if(ch==='1')cells.push([i,j])}));return{cells,h:rows.length,w:rows[0].length}});
+const SHAPES=[
+'1','11','111','1111','11111',
+'1|1','1|1|1','1|1|1|1','1|1|1|1|1',
+'11|11','11|11','11|11','111|111|111','111|111|111','111|111',
+'11|11|11','10|11','01|11','11|10','11|01',
+'100|100|111','001|001|111','111|100|100','111|001|001','111|010','010|111','110|011','011|110',
+'100|100|100|111','001|001|001|111','111|100|100|100','111|001|001|001',
+'1000|1000|1111','0001|0001|1111','1111|1000|1000','1111|0001|0001'
+].map(s=>{const rows=s.split('|'),cells=[];rows.forEach((r,i)=>[...r].forEach((ch,j)=>{if(ch==='1')cells.push([i,j])}));return{cells,h:rows.length,w:rows[0].length}});
 const EASY=SHAPES.filter(s=>s.cells.length<=4);
 const PHOTO_COLORS=['#A855F7','#22D3EE','#F97316','#22C55E','#EAB308'];
 const THEMES=[{n:'Couleurs photo',c:PHOTO_COLORS,cost:0},{n:'Bleu royal',c:Array(7).fill('#2563eb'),cost:0},{n:'Océan',c:['#1e3a8a','#1d4ed8','#2563eb','#0284c7','#0ea5e9','#38bdf8','#0369a1'],cost:100},{n:'Néon',c:['#f43f5e','#facc15','#4ade80','#22d3ee','#a78bfa','#f472b6','#fb923c'],cost:200}];

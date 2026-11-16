@@ -3,40 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MdigistarX - Jeux gratuits en ligne | Block Puzzle Gems</title>
-<meta name="description" content="MdigistarX : jeux gratuits en ligne, sans téléchargement, sur téléphone et ordinateur. Joue à Block Puzzle Gems.">
+<title>MdigistarX - Jeux gratuits en ligne | Block Puzzle Gems & Ludo Gems</title>
+<meta name="description" content="MdigistarX : jeux gratuits en ligne, sans téléchargement, sur téléphone et ordinateur. Joue à Block Puzzle Gems et à Ludo Gems.">
+<meta name="theme-color" content="#0f1535">
+<!-- Vérification Google AdSense -->
+<meta name="google-adsense-account" content="ca-pub-7828970829839106">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7828970829839106" crossorigin="anonymous"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#0f1535;font-family:system-ui,Arial,sans-serif;color:#fff;text-align:center}header{padding:22px 12px 6px}.logo{font-size:32px;font-weight:900}.logo span{font-size:28px}.sub{opacity:.85;font-size:15px;margin:6px 0 0}.card{background:#fff;color:#111;border-radius:18px;padding:20px 16px;max-width:420px;margin:18px auto 10px;box-shadow:0 10px 30px rgba(0,0,0,.4)}.card h1{font-size:24px;margin:0}.card p{font-size:15px;margin:10px 0}.stars{color:#f59e0b}.play{display:block;background:#16a34a;color:#fff;text-decoration:none;font-weight:900;font-size:20px;padding:16px;border-radius:12px;margin-top:14px;box-shadow:0 5px 0 #14532d}.about{max-width:520px;margin:18px auto;padding:0 16px;font-size:14px;line-height:1.5;opacity:.9}.about h2{font-size:18px}.adbox{max-width:520px;margin:10px auto;background:#1a2060;border-radius:12px;padding:8px}footer{padding:16px;font-size:12px;opacity:.85}footer a{color:#a5b4fc;margin:0 8px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}.modal.show{display:flex}.modal .box{background:#1c2250;border-radius:14px;padding:16px;max-width:520px;text-align:left;max-height:85vh;overflow:auto}.modal .box button{width:100%;background:#4f46e5;color:#fff;border:0;padding:10px;border-radius:10px;font-weight:800;margin-top:10px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(120% 70% at 50% 0%,#1d2570 0%,#0f1535 55%,#080b22 100%) fixed;font-family:system-ui,-apple-system,Arial,sans-serif;color:#fff;text-align:center;min-height:100vh}
+header{padding:24px 12px 4px}
+.logo{font-size:32px;font-weight:900;letter-spacing:.3px}.logo span{font-size:28px}
+.sub{opacity:.85;font-size:15px;margin:6px 0 0}
+h2.sec{font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:#a5b4fc;margin:22px 0 2px;font-weight:800}
+.games{display:grid;grid-template-columns:1fr;gap:16px;max-width:860px;margin:12px auto 6px;padding:0 14px}
+@media(min-width:720px){.games{grid-template-columns:1fr 1fr}}
+.card{background:#fff;color:#111;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4);display:flex;flex-direction:column;text-align:center;transition:transform .2s,box-shadow .2s;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(0,0,0,.5)}
+.banner{height:112px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.banner.puz{background:linear-gradient(135deg,#312e81,#4f46e5 55%,#06b6d4)}
+.banner.lud{background:linear-gradient(135deg,#14532d,#16a34a 45%,#facc15)}
+.tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.35);color:#fff;font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.3px}
+.new{position:absolute;top:10px;right:10px;background:#ef4444;color:#fff;font-size:11px;font-weight:900;padding:4px 9px;border-radius:999px;box-shadow:0 2px 0 #7f1d1d;animation:pu 1.6s infinite}
+@keyframes pu{50%{transform:scale(1.07)}}
+.gems{display:grid;grid-template-columns:repeat(4,26px);gap:4px;transform:rotate(-6deg)}
+.gems i{width:26px;height:26px;border-radius:7px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),inset 0 3px 0 rgba(255,255,255,.45)}
+.gems i.e{background:rgba(255,255,255,.13);box-shadow:none}
+.pawns{display:flex;gap:10px;align-items:flex-end}
+.pawn{width:30px;height:44px;position:relative}
+.pawn::before{content:"";position:absolute;left:50%;top:0;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff9,transparent 45%),var(--c);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25)}
+.pawn::after{content:"";position:absolute;left:0;bottom:0;width:30px;height:30px;border-radius:50% 50% 14px 14px/70% 70% 14px 14px;background:radial-gradient(circle at 32% 28%,#fff8,transparent 40%),var(--c);box-shadow:inset 0 -5px 0 rgba(0,0,0,.25),0 5px 6px rgba(0,0,0,.3)}
+.pawn:nth-child(2){margin-bottom:10px}.pawn:nth-child(3){margin-bottom:4px}
+.body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1}
+.card h1{font-size:23px;margin:0}
+.card p{font-size:15px;margin:9px 0}
+.chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:2px 0 4px}
+.chips b{font-size:11.5px;font-weight:800;background:#eef2ff;color:#3730a3;border-radius:999px;padding:4px 10px}
+.hint{font-size:13px!important;opacity:.78;margin-top:2px!important;min-height:18px}
+.play{display:block;background:#16a34a;color:#fff;text-decoration:none;font-weight:900;font-size:19px;padding:15px;border-radius:13px;margin-top:auto;box-shadow:0 5px 0 #14532d;transition:transform .08s,box-shadow .08s}
+.play:active{transform:translateY(3px);box-shadow:0 2px 0 #14532d}
+.play.blue{background:#4f46e5;box-shadow:0 5px 0 #312e81}
+.play.blue:active{box-shadow:0 2px 0 #312e81}
+.play:focus-visible{outline:3px solid #fde047;outline-offset:2px}
+.small{font-size:12px!important;opacity:.65;margin:8px 0 0!important}
+.adbox{max-width:860px;margin:14px auto;background:#1a2060;border-radius:12px;padding:8px}
+.about{max-width:620px;margin:20px auto;padding:0 16px;font-size:14px;line-height:1.55;opacity:.9}
+.about h2{font-size:18px}
+.about a{color:#a5b4fc}
+footer{padding:16px;font-size:12px;opacity:.85}
+footer a{color:#a5b4fc;margin:0 8px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}
+.modal.show{display:flex}
+.modal .box{background:#1c2250;border-radius:14px;padding:16px;max-width:520px;text-align:left;max-height:85vh;overflow:auto}
+.modal .box button{width:100%;background:#4f46e5;color:#fff;border:0;padding:10px;border-radius:10px;font-weight:800;margin-top:10px}
 </style>
 </head>
 <body>
-<header><div class="logo"><span>🎮</span> MdigistarX</div><p class="sub">Jeux gratuits en ligne - Sans téléchargement, sur téléphone et ordinateur</p></header>
-<div class="card">
-<h1>💎 Block Puzzle Gems</h1>
-<p>Place les blocs, complète les lignes, fais exploser les gemmes !</p>
-<p><span class="stars">⭐</span> 100% gratuit - 3 joueurs, chacun sa partie</p>
-<p style="font-size:13px;opacity:.8">Glisse les blocs sur la grille 8x8. Complète une ligne : les blocs tombent et déclenchent des réactions en chaîne. Fais le score pour débloquer les 7 niveaux, de Facile à CHAMPION.</p>
-<a class="play" href="puzzle.html">▶ JOUER MAINTENANT</a>
-<p style="font-size:12px;opacity:.7;margin-bottom:0">Pas besoin de télécharger. Ça joue tout de suite.</p>
-</div>
+<header>
+  <div class="logo"><span>🎮</span> MdigistarX</div>
+  <p class="sub">Jeux gratuits en ligne - Sans téléchargement, sur téléphone et ordinateur</p>
+</header>
+
+<h2 class="sec">Choisis ton jeu</h2>
+<main class="games">
+
+  <article class="card">
+    <div class="banner lud">
+      <span class="tag">🎲 Classique</span><span class="new">NOUVEAU</span>
+      <div class="pawns" aria-hidden="true"><div class="pawn" style="--c:#ef4444"></div><div class="pawn" style="--c:#22c55e"></div><div class="pawn" style="--c:#facc15"></div><div class="pawn" style="--c:#3b82f6"></div></div>
+    </div>
+    <div class="body">
+      <h1>🎲 Ludo Gems</h1>
+      <p>Lance le dé, capture les pions adverses et rentre à la maison en premier !</p>
+      <div class="chips"><b>👥 2 à 4 joueurs</b><b>🤖 Contre l'ordi</b><b>📱 Entre amis</b></div>
+      <p class="hint" id="ludoHint">Joue seul ou avec tes amis sur le même téléphone.</p>
+      <a class="play" href="ludo.html">▶ JOUER AU LUDO</a>
+      <p class="small">Gratuit • Aucun téléchargement</p>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="banner puz">
+      <span class="tag">🧩 Puzzle</span>
+      <div class="gems" aria-hidden="true">
+        <i style="background:#a855f7"></i><i style="background:#22d3ee"></i><i class="e"></i><i style="background:#f97316"></i>
+        <i class="e"></i><i style="background:#22c55e"></i><i style="background:#eab308"></i><i style="background:#a855f7"></i>
+        <i style="background:#f97316"></i><i style="background:#22d3ee"></i><i style="background:#22c55e"></i><i class="e"></i>
+      </div>
+    </div>
+    <div class="body">
+      <h1>💎 Block Puzzle Gems</h1>
+      <p>Place les blocs, complète les lignes, fais exploser les gemmes !</p>
+      <div class="chips"><b>🏆 7 niveaux</b><b>👤 3 profils</b><b>💣 Bonus</b></div>
+      <p class="hint" id="puzHint">Fais des réactions en chaîne pour battre ton record.</p>
+      <a class="play blue" id="puzBtn" href="puzzle.html">▶ JOUER MAINTENANT</a>
+      <p class="small">Gratuit • Aucun téléchargement</p>
+    </div>
+  </article>
+
+</main>
+
 <div class="adbox"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7828970829839106" data-ad-slot="3333333333" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
 <div class="about">
 <h2>À propos de MdigistarX</h2>
 <p>MdigistarX crée des petits jeux simples, rapides et amusants pour tous, au Cameroun et partout dans le monde. Nouveaux jeux chaque semaine.</p>
-<p>Block Puzzle Gems est notre premier jeu. Il est inspiré de Blockudoku et 1010!, mais gratuit, sans téléchargement, et avec un système unique : 3 profils, chacun garde sa partie, son score, ses pièces. Tu peux arrêter et reprendre quand tu veux.</p>
-<p><b>Comment jouer ?</b> Prends un bloc parmi les 3 en bas, glisse-le sur la grille. Complète une ligne ou une colonne pour la faire exploser. Utilise les bonus 💣 🔄 ↩️ quand tu es bloqué.</p>
+<p><b>Ludo Gems</b> est le célèbre jeu de plateau où chaque joueur essaie de ramener ses 4 pions à la maison. Fais un 6 pour sortir un pion, capture les pions adverses et évite les pièges. Joue contre l'ordinateur (Facile, Normal ou Expert) ou entre amis sur le même appareil.</p>
+<p><b>Block Puzzle Gems</b> est inspiré de Blockudoku et 1010!, mais gratuit, sans téléchargement, et avec un système unique : 3 profils, chacun garde sa partie, son score, ses pièces. Tu peux arrêter et reprendre quand tu veux.</p>
+<p><b>Comment jouer à Block Puzzle Gems ?</b> Prends un bloc parmi les 3 en bas, glisse-le sur la grille. Complète une ligne ou une colonne pour la faire exploser. Utilise les bonus 💣 🔄 ↩️ quand tu es bloqué.</p>
 </div>
+
 <footer>
 <p>© 2026 MdigistarX - <a href="#" onclick="openPage('privacy');return false">Confidentialité</a> | <a href="#" onclick="openPage('contact');return false">Contact</a> | <a href="#" onclick="openPage('about');return false">À propos</a></p>
 <p>Contact : contact@mdigistarx.tech</p>
 </footer>
+
 <div class="modal" id="page-privacy"><div class="box"><h2>Politique de confidentialité</h2><p>Dernière mise à jour : 15 novembre 2026. Site mdigistarx.tech, édité par MdigistarX.</p><p><b>Données :</b> Nous ne collectons pas de nom ou de numéro. Ton score est sauvegardé uniquement dans ton navigateur.</p><p><b>Cookies et publicités :</b> Nous utilisons Google AdSense. Google peut utiliser des cookies pour personnaliser les annonces.</p><p><b>Contact :</b> contact@mdigistarx.tech</p><button onclick="closePage()">Fermer</button></div></div>
 <div class="modal" id="page-contact"><div class="box"><h2>Contact</h2><p>Écris-nous à : <b>contact@mdigistarx.tech</b></p><button onclick="closePage()">Fermer</button></div></div>
-<div class="modal" id="page-about"><div class="box"><h2>À propos de MdigistarX</h2><p>MdigistarX crée des jeux web simples et accessibles pour tous, en Afrique et dans le monde.</p><button onclick="closePage()">Fermer</button></div></div>
+<div class="modal" id="page-about"><div class="box"><h2>À propos de MdigistarX</h2><p>MdigistarX crée des jeux web simples et accessibles pour tous, en Afrique et dans le monde. Block Puzzle Gems et Ludo Gems sont nos jeux du moment.</p><button onclick="closePage()">Fermer</button></div></div>
+
 <script>
 function openPage(n){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));document.getElementById('page-'+n).classList.add('show')}
 function closePage(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'))}
+/* Petites attentions : rappelle à chacun où il en était (données lues dans son navigateur) */
+(function(){
+  try{
+    var p=JSON.parse(localStorage.getItem('blockPuzzleGems_profiles')||'null');
+    var cur=parseInt(localStorage.getItem('blockPuzzleGems_cur')||'0',10)||0;
+    if(Array.isArray(p)&&p[cur]){
+      var P=p[cur];
+      if(P.game&&typeof P.game.score==='number'){
+        document.getElementById('puzBtn').textContent='▶ CONTINUER MA PARTIE';
+        document.getElementById('puzHint').textContent='💾 Partie en cours : '+P.game.score+' pts';
+      }else if(P.best>0){
+        document.getElementById('puzHint').textContent='🏆 Ton record : '+P.best+' pts';
+      }
+    }
+  }catch(e){}
+  try{
+    var L=JSON.parse(localStorage.getItem('ludoGems')||'null');
+    if(L&&L.wins>0)document.getElementById('ludoHint').textContent='🏆 Victoires au Ludo : '+L.wins;
+  }catch(e){}
+})();
 </script>
 </body>
 </html>

@@ -87,10 +87,14 @@ footer{padding:16px;font-size:12px;opacity:.85}footer a{color:#a5b4fc;margin:0 8
    ============================================================ */
 var VISIBLE=4;               // nombre de vignettes visibles avant le "Voir plus"
 var GAMES=[
- {title:'Les Ruines d\'Aurélys',emoji:'🗡️',tag:'⚔️ Aventure',isNew:true,featured:true,href:'aventure.html',
-  bg:'linear-gradient(135deg,#14532d,#16a34a 50%,#a16207)',desc:'Explore 9 zones, trouve l\'épée, ouvre le temple et bats le Gardien !',cta:'▶ COMMENCER',
-  hint:function(s){return s&&s.took?'💾 Partie en cours : 🗝️'+s.keys+' 💎'+s.gems:'Un vrai jeu d\'aventure, sauvegarde automatique.'},key:'mdx_aventure_v1',
-  about:'<b>Les Ruines d\'Aurélys</b> est un jeu d\'aventure en vue du dessus : épée, clés, grotte sombre, boss final. Ta partie est sauvegardée automatiquement.'},
+ {title:'Légions de Fer',emoji:'🛡️',tag:'🏰 Stratégie 3D',isNew:true,featured:true,href:'legions.html',
+  bg:'linear-gradient(135deg,#1e3a8a,#2563eb 50%,#dc2626)',desc:'Agrandis ton armée, écrase les ennemis et bats les boss géants !',cta:'▶ JOUER',key:'mdx_legions_v1',
+  hint:function(s){return s&&s.level>1?'🏆 Niveau atteint : '+s.level:'Choisis les bonnes portes pour grandir.'},
+  about:'<b>Légions de Fer</b> est un jeu de stratégie en 3D : ton escouade avance seule, tu choisis les portes (+, ×, −, ÷) qui font grandir ou fondre ton armée, puis tu affrontes des armées ennemies et un boss géant. Ton niveau est sauvegardé automatiquement.'},
+ {title:'Les Ruines d\'Aurélys',emoji:'🗡️',tag:'⚔️ Aventure 3D',isNew:true,href:'aventure.html',
+  bg:'linear-gradient(135deg,#14532d,#16a34a 50%,#a16207)',desc:'Aventure 3D : explore l\'île, trouve l\'épée, ouvre le temple et bats le Gardien !',cta:'▶ COMMENCER',
+  hint:function(s){return s&&s.took?'💾 Partie en cours : 🗝️'+s.keys+' 💎'+s.gems:'Un vrai jeu d\'aventure, sauvegarde automatique.'},key:'mdx_aventure3d_v1',
+  about:'<b>Les Ruines d\'Aurélys</b> est un jeu d\'aventure en 3D à la troisième personne : île à explorer, épée, clés, marais dans la brume, boss final. Ta partie est sauvegardée automatiquement.'},
  {title:'Ludo Gems',emoji:'🎲',tag:'🎲 Classique',href:'ludo.html',bg:'linear-gradient(135deg,#14532d,#16a34a 45%,#facc15)',
   desc:'2 à 4 joueurs, contre l\'ordi ou entre amis.',key:'ludoGems',
   hint:function(s){return s&&s.wins>0?'🏆 Victoires : '+s.wins:'Capture les pions adverses !'},

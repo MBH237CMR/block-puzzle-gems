@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Voiture MdigistarX - Racing - Evite, Ramasse, Va Loin !</title>
+<meta name="description" content="Voiture MdigistarX : course rapide, glisse pour changer de voie, évite les voitures, ramasse les pièces. Gratuit sur téléphone, tablette et PC.">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7828970829839106" crossorigin="anonymous"></script>
+<style>
+/* === ECRAN FIGE === */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;height:100dvh;margin:0;overflow:hidden;overscroll-behavior:none;position:fixed;inset:0;width:100%}
+body{background:linear-gradient(180deg,#1a1a2e,#16213e);font-family:system-ui,Arial;color:#fff;text-align:center;display:flex;flex-direction:column}
+a{color:#fff;font-weight:800;text-decoration:none}
+.top{flex:0 0 auto;padding:8px 4vw;display:flex;justify-content:space-between;align-items:center}.logo{font-weight:900;font-size:19px;text-align:left}.logo span{font-size:10px;display:block;opacity:.8}
+#scrollArea{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.card{background:#fff;color:#222;border-radius:18px;padding:12px;max-width:96vw;margin:8px auto;box-shadow:0 10px 25px rgba(0,0,0,.4);width:96vw}
+.prof{display:flex;gap:8px}.prof button{flex:1;background:#e3f2fd;border:0;border-radius:10px;padding:10px 4px;font-weight:800;font-size:13px;cursor:pointer}.prof button.on{background:#1976d2;color:#fff}
+.cars{display:flex;gap:8px}.cars button{flex:1;border:2px solid #eee;background:#f9f9f9;border-radius:12px;padding:10px 4px;cursor:pointer;font-size:22px}.cars button.on{border-color:#1976d2;background:#e3f2fd;box-shadow:0 0 0 2px #1976d2}
+.cars small{display:block;font-size:11px;color:#666;font-weight:700}
+.big{width:100%;background:linear-gradient(180deg,#ff9800,#f57c00);color:#fff;border:0;border-radius:14px;padding:15px;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 0 #e65100;margin-top:10px}.sec{width:100%;background:#fff;border:2px solid #1976d2;color:#1976d2;border-radius:12px;padding:11px;font-weight:800;cursor:pointer;margin-top:8px}
+.scoreBar{display:flex;gap:8px}.scoreBox{flex:1;background:#fff0f5;border-radius:12px;padding:7px}.scoreBox b{font-size:20px;display:block;color:#1976d2}.scoreBox small{font-size:11px;color:#888}
+/* === ROUTE === */
+#gameWrap{position:relative;width:92vw;max-width:420px;height:68vh;max-height:560px;margin:8px auto;background:#333;border-radius:16px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 0 0 4px #fff,0 15px 30px rgba(0,0,0,.5)}
+#road{position:absolute;inset:0;background:repeating-linear-gradient(180deg,#333 0 40px,#3a3a3a 40px 80px)}
+.laneLine{position:absolute;top:0;bottom:0;width:4px;background:repeating-linear-gradient(180deg,#fff 0 30px,transparent 30px 60px);opacity:.7}
+#player{position:absolute;width:48px;height:78px;font-size:42px;display:flex;align-items:center;justify-content:center;z-index:10;transition:left .15s;filter:drop-shadow(0 4px 4px rgba(0,0,0,.5))}
+.enemy{position:absolute;width:48px;height:78px;font-size:42px;display:flex;align-items:center;justify-content:center;z-index:5;filter:drop-shadow(0 4px 4px rgba(0,0,0,.5))}
+.coin{position:absolute;width:34px;height:34px;font-size:26px;display:flex;align-items:center;justify-content:center;z-index:6;animation:spin .8s infinite}
+@keyframes spin{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.fuel{position:absolute;width:34px;height:34px;font-size:26px;display:flex;align-items:center;justify-content:center;z-index:6}
+#hud{position:absolute;top:8px;left:8px;right:8px;display:flex;gap:6px;z-index:20}
+.hudItem{background:rgba(0,0,0,.65);color:#fff;border-radius:999px;padding:6px 10px;font-weight:800;font-size:12px}
+#fuelBarWrap{position:absolute;left:8px;right:8px;bottom:8px;height:10px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden;z-index:20}
+#fuelBar{height:100%;background:linear-gradient(90deg,#4caf50,#ffeb3b,#f44336);transition:.3s;width:100%}
+#msg{min-height:22px;font-weight:800;color:#1976d2;font-size:15px}
+#bigMsg{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,.75);z-index:30;font-size:28px;font-weight:900}
+#bigMsg small{font-size:14px;font-weight:700;margin-top:6px}
+.controls{display:flex;gap:10px;margin-top:8px}.controls button{flex:1;border:0;border-radius:12px;padding:14px;font-size:26px;cursor:pointer;background:#eee}.controls button:active{background:#1976d2}
+.how{background:#fff8e1;border-radius:12px;padding:11px;font-size:13px;line-height:1.5;text-align:left;color:#555}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shake{animation:shake .3s}
+@media(min-width:800px){.wrap{max-width:920px;margin:0 auto;display:grid;grid-template-columns:360px 1fr;gap:16px;align-items:start}.wrap .card{width:100%}#gameWrap{width:100%;max-width:420px;height:580px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="logo">🏎️ VOITURE<span>MDIGISTARX • RACING</span></div><a href="index.html">← Accueil</a></div>
+<div id="scrollArea">
+<div class="wrap">
+<div>
+<div class="card" id="menu">
+<h2 style="margin:0;color:#1976d2">🏎️ VOITURE MDIGISTARX</h2><p style="font-size:13px;color:#666">Glisse pour changer de voie, évite, ramasse, va loin !</p>
+<div class="prof" id="profBar"></div>
+<p><b id="curName">Joueur 1</b> • 🏆 <span id="mWins">0</span> • 💰 <span id="mCoins">0</span> • ⭐ <span id="mPoints">0</span></p>
+<p style="font-weight:900;text-align:left">🚗 CHOISIS TA VOITURE</p><div class="cars" id="carRow"></div>
+<button class="big" id="playBtn" onclick="startGame()">▶ DÉMARRER LA COURSE</button>
+<button class="sec" onclick="showGift()">🎁 Cadeau +30 💰</button>
+<div class="how"><b>👆 Comment jouer ?</b><br>1. <b>GLISSE</b> ton doigt à gauche / droite pour changer de voie. L'écran ne bouge pas.<br>2. Ou clique sur ◀ ▶<br>3. Évite les voitures 🚕 🚚, ramasse 💰 et ⛽<br>4. Plus tu vas loin, plus ça va vite. Tu crashes = fini.<br><b>Astuce :</b> L'essence descend, prends ⛽ pour continuer.</div>
+</div>
+<div class="card"><b>🏆 Classement</b><div id="rank" style="font-size:13px;text-align:left;margin-top:6px"></div></div>
+</div>
+<div>
+<div class="card" id="game" style="display:none">
+<div class="scoreBar"><div class="scoreBox"><b id="score">0 m</b><small>📏 Distance</small></div><div class="scoreBox"><b id="coins">0</b><small>💰 Pièces</small></div><div class="scoreBox"><b id="speed">0</b><small>💨 Vitesse</small></div></div>
+<p id="msg">👆 Glisse à gauche / droite pour changer de voie !</p>
+<div id="gameWrap">
+<div id="road"></div>
+<div style="left:33%;margin-left:-2px" class="laneLine"></div>
+<div style="left:66%;margin-left:-2px" class="laneLine"></div>
+<div id="hud"><div class="hudItem">🏎️ <span id="hudDist">0 m</span></div><div class="hudItem">💰 <span id="hudCoins">0</span></div><div class="hudItem">⛽ <span id="hudFuel">100%</span></div></div>
+<div id="player">🚗</div>
+<div id="fuelBarWrap"><div id="fuelBar"></div></div>
+<div id="bigMsg">💥 CRASH !<small id="bigMsgSub">Tu as fait 0 m</small><button onclick="startGame()" style="margin-top:12px;background:#ff9800;color:#fff;border:0;border-radius:12px;padding:12px 20px;font-weight:900;font-size:16px;cursor:pointer">🔄 REJOUER</button><button onclick="saveAndMenu()" style="margin-top:8px;background:#fff;color:#333;border:0;border-radius:12px;padding:10px 16px;font-weight:800;cursor:pointer">⏸ Menu</button></div>
+</div>
+<div class="controls"><button onclick="moveLeft()">◀</button><button onclick="moveRight()">▶</button></div>
+<div style="display:flex;gap:8px;margin-top:8px"><button onclick="saveAndMenu()" style="flex:1;background:#eee;border:0;border-radius:10px;padding:11px;font-weight:800;cursor:pointer">⏸ Menu</button><button onclick="startGame()" style="flex:1;background:#ffebee;color:#d32f2f;border:0;border-radius:10px;padding:11px;font-weight:800;cursor:pointer">🔄 Recommencer</button></div>
+</div>
+<div style="margin:10px auto;max-width:96vw"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7828970829839106" data-ad-slot="5555555555" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+</div>
+</div>
+</div>
+<script>
+// BLOQUE SCROLL SUR LA ROUTE
+document.addEventListener('touchmove',function(e){if(e.target.closest('#gameWrap')){e.preventDefault()}},{passive:false});
+let profiles=null;try{profiles=JSON.parse(localStorage.getItem('voiture_profiles'))}catch(e){}
+if(!profiles)profiles=[{name:'Joueur 1',wins:0,coins:0,points:0,best:0},{name:'Joueur 2',wins:0,coins:0,points:0,best:0},{name:'Joueur 3',wins:0,coins:0,points:0,best:0}];
+let cur=0;try{cur=parseInt(localStorage.getItem('voiture_cur')||'0')||0}catch(e){}
+let carIdx=0,playing=false,lane=1,dist=0,coins=0,fuel=100,speed=0,loop=null,spawnTimer=null,items=[];
+const CARS=[{emoji:'🚕',name:'Taxi',price:0},{emoji:'🚗',name:'Voiture',price:0},{emoji:'🚙',name:'4x4',price:0},{emoji:'🚓',name:'Police',price:100},{emoji:'🏎️',name:'F1',price:200}];
+const ENEMIES=['🚕','🚚','🚌','🚙','🚛','🚗'];
+function curP(){return profiles[cur]}
+function saveP(){try{localStorage.setItem('voiture_profiles',JSON.stringify(profiles));localStorage.setItem('voiture_cur',String(cur))}catch(e){}}
+function renderAll(){
+let b=document.getElementById('profBar');b.innerHTML='';
+profiles.forEach((P,i)=>{let btn=document.createElement('button');btn.className=i==cur?'on':'';btn.textContent=P.name;btn.onclick=()=>{if(i==cur)return;cur=i;saveP();renderAll()};b.appendChild(btn)});
+document.getElementById('curName').textContent=curP().name;
+document.getElementById('mWins').textContent=curP().wins;
+document.getElementById('mCoins').textContent=curP().coins;
+document.getElementById('mPoints').textContent=curP().points||0;
+document.getElementById('rank').innerHTML=profiles.map((p,i)=>(i+1)+'. '+p.name+' - 🏆 '+p.wins+' • ⭐ '+(p.points||0)+' • 💰 '+p.coins+' • 📏 '+p.best+'m').join('<br>');
+let r=document.getElementById('carRow');r.innerHTML='';
+CARS.forEach((C,i)=>{let btn=document.createElement('button');btn.className=i==carIdx?'on':'';btn.innerHTML=C.emoji+'<small>'+C.name+'</small>';btn.onclick=()=>{carIdx=i;renderAll();if(document.getElementById('game').style.display=='block')placePlayer()};r.appendChild(btn)});
+}
+function laneX(l){let w=document.getElementById('gameWrap').clientWidth;return (w*(l*2+1)/6)-24}
+function placePlayer(){let p=document.getElementById('player');p.textContent=CARS[carIdx].emoji;p.style.left=laneX(lane)+'px';p.style.bottom='18px'}
+function moveLeft(){if(!playing)return;if(lane>0){lane--;placePlayer()}}
+function moveRight(){if(!playing)return;if(lane<2){lane++;placePlayer()}}
+function setMsg(t){document.getElementById('msg').textContent=t}
+function startGame(){
+document.getElementById('menu').style.display='none';document.getElementById('game').style.display='block';
+document.getElementById('bigMsg').style.display='none';
+lane=1;dist=0;coins=0;fuel=100;speed=60;playing=true;items=[];
+document.querySelectorAll('.enemy,.coin,.fuel').forEach(e=>e.remove());
+placePlayer();updateHUD();
+setMsg('🏁 GO ! Glisse pour éviter !');
+clearInterval(loop);clearInterval(spawnTimer);
+loop=setInterval(tick,30);
+spawnTimer=setInterval(spawn,700);
+}
+function spawn(){
+if(!playing)return;
+let wrap=document.getElementById('gameWrap');
+let r=Math.random();
+if(r<0.62){
+let d=document.createElement('div');d.className='enemy';d.textContent=ENEMIES[Math.floor(Math.random()*ENEMIES.length)];
+let l=Math.floor(Math.random()*3);d.style.left=laneX(l)+'px';d.style.top='-80px';wrap.appendChild(d);items.push({el:d,type:'enemy',lane:l,y:-80});
+}else if(r<0.88){
+let d=document.createElement('div');d.className='coin';d.textContent='💰';let l=Math.floor(Math.random()*3);d.style.left=(laneX(l)+7)+'px';d.style.top='-40px';wrap.appendChild(d);items.push({el:d,type:'coin',lane:l,y:-40});
+}else{
+let d=document.createElement('div');d.className='fuel';d.textContent='⛽';let l=Math.floor(Math.random()*3);d.style.left=(laneX(l)+7)+'px';d.style.top='-40px';wrap.appendChild(d);items.push({el:d,type:'fuel',lane:l,y:-40});
+}
+}
+function tick(){
+if(!playing)return;
+speed=Math.min(220,60+Math.floor(dist/150)*18);
+dist+=speed/60;fuel-=0.08;
+let wrapH=document.getElementById('gameWrap').clientHeight;
+let playerY=wrapH-18-78;
+for(let i=items.length-1;i>=0;i--){
+let it=items[i];it.y+=speed/10;it.el.style.top=it.y+'px';
+if(it.y>wrapH+90){it.el.remove();items.splice(i,1);continue}
+let itemX=laneX(it.lane)+(it.type=='enemy'?0:7),itemW=it.type=='enemy'?48:34,itemH=it.type=='enemy'?78:34;
+let px=laneX(lane),py=playerY;
+if(itemX < px+42 && itemX+itemW > px+6 && it.y < py+70 && it.y+itemH > py+8){
+if(it.type=='enemy'){crash();return}
+if(it.type=='coin'){coins++;curP().coins++;it.el.remove();items.splice(i,1);setMsg('💰 +1 pièce ! Total '+coins);continue}
+if(it.type=='fuel'){fuel=Math.min(100,fuel+35);it.el.remove();items.splice(i,1);setMsg('⛽ Essence +35 !');continue}
+}
+}
+if(fuel<=0){crash('⛽ Plus d\'essence !');return}
+updateHUD();
+}
+function updateHUD(){
+document.getElementById('score').textContent=Math.floor(dist)+' m';
+document.getElementById('coins').textContent=coins;
+document.getElementById('speed').textContent=speed+' km/h';
+document.getElementById('hudDist').textContent=Math.floor(dist)+' m';
+document.getElementById('hudCoins').textContent=coins;
+document.getElementById('hudFuel').textContent=Math.max(0,Math.floor(fuel))+'%';
+document.getElementById('fuelBar').style.width=Math.max(0,fuel)+'%';
+}
+function crash(reason){
+playing=false;clearInterval(loop);clearInterval(spawnTimer);
+let wrap=document.getElementById('gameWrap');wrap.classList.remove('shake');void wrap.offsetWidth;wrap.classList.add('shake');
+let pts=Math.floor(dist)+coins*10;
+curP().points=(curP().points||0)+pts;if(dist>curP().best)curP().best=Math.floor(dist);curP().wins++;saveP();renderAll();
+document.getElementById('bigMsg').style.display='flex';
+document.getElementById('bigMsgSub').textContent=(reason||'💥 Crash !')+' • '+Math.floor(dist)+' m • 💰 '+coins+' • ⭐ +'+pts+' pts';
+setMsg('💥 Fini ! '+Math.floor(dist)+' m - Rejoue !');
+}
+function saveAndMenu(){playing=false;clearInterval(loop);clearInterval(spawnTimer);document.getElementById('game').style.display='none';document.getElementById('menu').style.display='block';renderAll();}
+function showGift(){curP().coins+=30;saveP();renderAll();alert('🎁 +30 💰');}
+// GLISSER
+let sx=0,sy=0;
+let wrapEl=document.getElementById('gameWrap');
+wrapEl.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;});
+wrapEl.addEventListener('pointerup',e=>{
+if(!playing)return;let dx=e.clientX-sx;if(Math.abs(dx)<25)return;if(dx>0)moveRight();else moveLeft();
+});
+window.addEventListener('resize',()=>{if(playing)placePlayer()});
+renderAll();
+</script>
+</body>
+</html>
